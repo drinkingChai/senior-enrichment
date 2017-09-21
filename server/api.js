@@ -9,23 +9,13 @@ api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
 // refactor
 api.get('/campus', (req, res, next)=> {
-  db.model('campus').findAll()
+  db.model('campus').findAll( { include: [ db.model('student') ] } )
   .then(campus=> res.send(campus))
 })
 
 api.get('/students', (req, res, next)=> {
-  db.model('student').findAll()
+  db.model('student').findAll( { include: [ db.model('student') ] } )
   .then(students=> res.send(students))
-})
-
-api.get('/campus/:id', (req, res, next)=> {
-  db.model('campus').findById(req.params.id, { include: [ db.model('student') ] })
-  .then(campus=> res.send(campus))
-})
-
-api.get('/students/:id', (req, res, next)=> {
-  db.model('student').findById(req.params.id, { include: [ db.model('campus') ] })
-  .then(student=> res.send(student))
 })
 
 module.exports = api
