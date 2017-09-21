@@ -7,7 +7,6 @@
 
 // This is also probably a good place for you to set up your associations
 
-const conn = require('./conn')
 const Campus = require('./Campus')
 const Student = require('./Student')
 
@@ -15,8 +14,6 @@ Campus.hasMany(Student)
 Student.belongsTo(Campus)
 
 module.exports = {
-  models: {
-    Campus,
-    Student
-  }
+  Campus,
+  Student
 }

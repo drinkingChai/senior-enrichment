@@ -1,6 +1,6 @@
 'use strict'
 
-const conn = require('./conn')
+const conn = require('../index')
 
 const Campus = conn.define('campus', {
   name: {
