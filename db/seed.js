@@ -15,8 +15,8 @@ const seed = ()=> {
   ])
   .then(([luna, terra, mars, titan, gabe, ashi, dan, marvin, stinky])=> {
     return Promise.all([
-      luna.addStudent(gabe),
-      luna.addStudent(ashi),
+      titan.addStudent(gabe),
+      titan.addStudent(ashi),
       terra.addStudent(dan),
       mars.addStudent(marvin),
       luna.addStudent(stinky)
