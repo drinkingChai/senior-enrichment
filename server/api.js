@@ -7,6 +7,14 @@ const db = require('../db')
 	// Ideally you would have something to handle this, so if you have time try that out!
 api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
-console.log('models', db.models)
+api.get('/campus', (req, res, next)=> {
+  db.model('campus').findAll()
+  .then(campus=> res.send(campus))
+})
+
+api.get('/students', (req, res, next)=> {
+  db.model('student').findAll()
+  .then(students=> res.send(students))
+})
 
 module.exports = api
