@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import store  from '../store'
-import { fetchAllStudents } from '../reducers'
+import { fetchAllStudents, deleteStudent } from '../reducers'
 
 export default class AllStudents extends Component {
   constructor() {
@@ -21,8 +21,13 @@ export default class AllStudents extends Component {
     this.unsubscribe()
   }
 
+  onDeleteHandler(ev) {
+    store.dispatch(deleteStudent(ev.target.value))
+  }
+
   render() {
     const { students } = this.state
+    const { onDeleteHandler } = this
 
     return (
       <div>
@@ -30,6 +35,7 @@ export default class AllStudents extends Component {
           students.map(student=> (
             <div key={ student.id }>
               <Link to={ `/students/${student.id}` }>{ student.name }</Link>
+              <button value={ student.id } onClick={ onDeleteHandler }>Delete</button>
             </div>
           ))
         }

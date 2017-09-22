@@ -23,4 +23,10 @@ api.post('/students', (req, res, next)=> {
     .then(student=> res.status(203).send(student))
 })
 
+api.delete('/students/:id', (req, res, next)=> {
+  db.model('student').findById(req.params.id)
+    .then(student=> student.destroy())
+    .then(student=> res.status(200).send(student))
+})
+
 module.exports = api
