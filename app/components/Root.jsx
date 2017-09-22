@@ -4,7 +4,9 @@ import store from '../store'
 import { fetchAllCampus } from '../reducers'
 import Nav from './Nav'
 import AllCampus from './AllCampus'
-import SingleCampus from './SingleCampus'
+import Campus from './Campus'
+import AllStudents from './AllStudents'
+import Student from './Student'
 
 export default class Root extends Component {
   render() {
@@ -14,7 +16,9 @@ export default class Root extends Component {
         <Nav />
 
        <Route exact path='/campus' component={ AllCampus }/>
-       <Route exact path='/campus/:id' component={ SingleCampus }/>
+       <Route exact path='/campus/:id' component={ Campus }/>
+       <Route exact path='/students' component={ AllStudents }/>
+       <Route exact path='/students/:id' component={ Student }/>
       </div>
     )
   }

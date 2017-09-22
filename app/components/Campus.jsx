@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import store from '../store'
 import { fetchAllCampus } from '../reducers'
-import Campus from './Campus'
 
-export default class AllCampuses extends Component {
+export default class Campus extends Component {
   constructor() {
     super()
     this.state = store.getState()
+    console.log('rendered')
   }
   
   componentDidMount() {
@@ -23,20 +23,19 @@ export default class AllCampuses extends Component {
   }
 
   render() {
-    const { campus } = this.state
+    const id = this.props.match.params.id * 1
+    const campus = this.state.campus.find(camp=> camp.id == id)
 
     return (
       <div>
-      {
-        campus.map(camp=> (
-          <div key={ camp.id }>
-            <Link to={ `/campus/${camp.id}` }>{ camp.name }</Link>
-          </div>
-        ))
-      }
+        { 
+          campus && campus.students && campus.students.map(student=> (
+            <div key={ student.id }>
+              <Link to={ `/students/${student.id}` }>{ student.name }</Link>
+            </div>
+          ))
+        }
       </div>
     )
   }
 }
-
-// <Route exact path={ `/campus/${camp.id}` } component={ SingleCampus }/>

@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import store from '../store'
-import { fetchAllCampus } from '../reducers'
+import store  from '../store'
+import { fetchAllStudents } from '../reducers'
 
-export default class SingleCampus extends Component {
+export default class AllStudents extends Component {
   constructor() {
     super()
     this.state = store.getState()
-    console.log('rendered')
   }
-  
+
   componentDidMount() {
     this.unsubscribe = store.subscribe(()=> {
       this.setState(store.getState())
     })
 
-    store.dispatch(fetchAllCampus())
+    store.dispatch(fetchAllStudents())
   }
 
   componentWillUnmount() {
@@ -23,13 +22,12 @@ export default class SingleCampus extends Component {
   }
 
   render() {
-    const id = this.props.match.params.id * 1
-    const campus = this.state.campus.find(camp=> camp.id == id)
+    const { students } = this.state
 
     return (
       <div>
-        { 
-          campus && campus.students && campus.students.map(student=> (
+        {
+          students.map(student=> (
             <div key={ student.id }>
               <Link to={ `/students/${student.id}` }>{ student.name }</Link>
             </div>

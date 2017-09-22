@@ -14,7 +14,7 @@ api.get('/campus', (req, res, next)=> {
 })
 
 api.get('/students', (req, res, next)=> {
-  db.model('student').findAll( { include: [ db.model('student') ] } )
+  db.model('student').findAll( { include: [ db.model('campus') ] } )
   .then(students=> res.send(students))
 })
 
