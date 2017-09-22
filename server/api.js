@@ -18,4 +18,9 @@ api.get('/students', (req, res, next)=> {
   .then(students=> res.send(students))
 })
 
+api.post('/students', (req, res, next)=> {
+  db.model('student').create(req.body)
+    .then(student=> res.status(203).send(student))
+})
+
 module.exports = api

@@ -33,6 +33,7 @@ export default class AllStudents extends Component {
             </div>
           ))
         }
+        <Link to='/add-student'>Add Student</Link>
       </div>
     )
   }

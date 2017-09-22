@@ -7,6 +7,7 @@ import AllCampus from './AllCampus'
 import Campus from './Campus'
 import AllStudents from './AllStudents'
 import Student from './Student'
+import AddStudent from './AddStudent'
 
 export default class Root extends Component {
   render() {
@@ -19,7 +20,8 @@ export default class Root extends Component {
        <Route exact path='/campus/:id' component={ Campus }/>
        <Route exact path='/students' component={ AllStudents }/>
        <Route exact path='/students/:id' component={ Student }/>
-      </div>
+       <Route exact path='/add-student' component={ AddStudent }/>
+     </div>
     )
   }
 }
