@@ -30,7 +30,7 @@ export default class AllCampuses extends Component {
       {
         campus.map(camp=> (
           <div key={ camp.id }>
-            <Link to={ `/campus/${camp.id}` }>{ camp.name }</Link>
+            <Link to={ `/campus/${camp.id}` }>{ camp.name } { camp.students.length }</Link>
           </div>
         ))
       }

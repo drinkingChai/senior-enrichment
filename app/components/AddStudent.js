@@ -52,7 +52,8 @@ export default class AddStudent extends Component {
           <input name='name' value={ studentNameEntry } onChange={ onChangeHandler }/>
         </div>
 
-        <select name='channelId' onChange={ onChangeHandler }>
+        <select name='channelId' value={ studentChannelId } onChange={ onChangeHandler }>
+          <option>--- none ---</option>
           { campus.map(camp=> <option key={ camp.id } value={ camp.id }>{ camp.name }</option>) }
         </select>
 

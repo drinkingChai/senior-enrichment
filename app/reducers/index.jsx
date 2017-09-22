@@ -67,6 +67,7 @@ const fetchAllStudents = ()=> {
 }
 
 const createNewStudent = (name, campusId)=> {
+  campusId = campusId || null
   return (dispatch)=> {
     axios.post('/api/students', { name, campusId })
       .then(response=> response.data)
@@ -100,7 +101,7 @@ const rootReducer = function(state = initialState, action) {
     case SET_STUDENT_CAMPUS:
       return Object.assign({}, state, { studentChannelId: action.studentChannelId * 1 })
     case ADD_STUDENT_TO_SERVER:
-      return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '' })
+      return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '', studentChannelId: 0 })
     case REMOVE_STUDENT_FROM_SERVER:
       return Object.assign({}, state, { students: state.students.filter(student=> student.id != action.studentId) })
     default: return state
