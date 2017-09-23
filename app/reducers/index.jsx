@@ -7,6 +7,7 @@ const WRITE_STUDENT_NAME = 'WRITE_STUDENT_NAME'
 const SET_STUDENT_CAMPUS = 'SET_STUDENT_CAMPUS'
 const ADD_STUDENT_TO_SERVER = 'ADD_STUDENT_TO_SERVER'
 const REMOVE_STUDENT_FROM_SERVER = 'REMOVE_STUDENT_FROM_SERVER'
+const UPDATE_STUDENT_ON_SERVER = 'UPDATE_STUDENT_ON_SERVER'
 
 const gotCampusFromServer = (campus)=> {
   return {
@@ -43,10 +44,10 @@ const addStudentToServer = (student)=> {
   }
 }
 
-const removeStudentFromServer = (studentId)=> {
+const updateStudentOnServer = (student)=> {
   return {
-    type: REMOVE_STUDENT_FROM_SERVER,
-    studentId
+    type: UPDATE_STUDENT_ON_SERVER,
+    student
   }
 }
 
@@ -66,6 +67,17 @@ const fetchAllStudents = ()=> {
   }
 }
 
+const fetchStudentsCampus = ()=> {
+  let students
+  return Promise.all([
+    axios.get('/api/students'),
+    axios.get('/api/campus')
+  ])
+  .then(([ res1, res2 ])=> {
+    dispatch(updateStudentOnServer({ students: res1.data, campus: res2.data }))
+  })
+}
+
 const createNewStudent = (name, campusId)=> {
   campusId = campusId || null
   return (dispatch)=> {
@@ -75,11 +87,21 @@ const createNewStudent = (name, campusId)=> {
   }
 }
 
+const updateStudent = (studentId, info)=> {
+  info.campusId = info.campusId || null
+  return (dispatch)=> {
+    axios.put(`/api/students/${studentId}`, info)
+      .then(fetchStudentsCampus)
+      //.then(response=> response.data)
+      //.then(student=> dispatch(updateStudentOnServer(student)))
+  }
+}
+
 const deleteStudent = (studentId)=> {
   return (dispatch)=> {
     axios.delete(`/api/students/${studentId}`)
       .then(response=> response.data)
-      .then(student=> dispatch(removeStudentFromServer(studentId)))
+      .then(student=> dispatch(removeStudentFromServer(student)))
   }
 }
 
@@ -102,11 +124,22 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, { studentCampusId: action.studentCampusId * 1 })
     case ADD_STUDENT_TO_SERVER:
       return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '', studentCampusId: 0 })
+    case UPDATE_STUDENT_ON_SERVER:
+      // replace with refetch from server
+      return Object.assign({}, state, { students: action.students, campus: action.campus })
     case REMOVE_STUDENT_FROM_SERVER:
       return Object.assign({}, state, { students: state.students.filter(student=> student.id != action.studentId) })
-    default: return state
+   default: return state
   }
 };
 
-export { fetchAllCampus, fetchAllStudents, writeStudentName, setStudentCampus, createNewStudent, deleteStudent }
+export { 
+  fetchAllCampus, 
+  fetchAllStudents, 
+  writeStudentName, 
+  setStudentCampus, 
+  createNewStudent, 
+  deleteStudent,
+  updateStudent
+}
 export default rootReducer

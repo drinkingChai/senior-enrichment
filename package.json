@@ -7,7 +7,7 @@
     "test": "mocha **/*.test.js *.test.js",
     "build": "webpack",
     "build-watch": "webpack -w",
-    "start": "DATABASE_NAME=margaretacademy nodemon server/start.js --ignore app/ --ignore public/"
+    "start": "webpack -w & DATABASE_NAME=margaretacademy nodemon server/start.js --ignore app/ --ignore public/"
   },
   "keywords": [
     "react",

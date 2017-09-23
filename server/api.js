@@ -23,6 +23,17 @@ api.post('/students', (req, res, next)=> {
     .then(student=> res.status(203).send(student))
 })
 
+api.get('/students/:id', (req, res, next)=> {
+  db.model('student').findById(req.params.id, { include: [ db.model('campus') ] } )
+    .then(student=> res.send(student))
+})
+
+api.put('/students/:id', (req, res, next)=> {
+  db.model('student').findById(req.params.id)
+    .then(student=> student.update(req.body))
+    .then(student=> res.send(student))
+})
+
 api.delete('/students/:id', (req, res, next)=> {
   db.model('student').findById(req.params.id)
     .then(student=> student.destroy())
