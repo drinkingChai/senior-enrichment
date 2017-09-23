@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import store from '../store'
-import { fetchAllCampus } from '../reducers'
-import Campus from './Campus'
 
 const AllCampus = (props)=> {
   const { campus } = props.state
@@ -20,8 +18,6 @@ const AllCampus = (props)=> {
     </div>
   )
 }
-
-store.dispatch(fetchAllCampus())
 
 const mapStateToProps = (state)=> {
   return {

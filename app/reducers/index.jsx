@@ -29,10 +29,10 @@ const writeStudentName = (studentNameEntry)=> {
   }
 }
 
-const setStudentCampus = (studentChannelId)=> {
+const setStudentCampus = (studentCampusId)=> {
   return {
     type: SET_STUDENT_CAMPUS,
-    studentChannelId
+    studentCampusId
   }
 }
 
@@ -87,7 +87,7 @@ const initialState = {
   campus: [],
   students: [],
   studentNameEntry: '',
-  studentChannelId: 0 
+  studentCampusId: 0 
 }
 
 const rootReducer = function(state = initialState, action) {
@@ -99,9 +99,9 @@ const rootReducer = function(state = initialState, action) {
     case WRITE_STUDENT_NAME:
       return Object.assign({}, state, { studentNameEntry: action.studentNameEntry })
     case SET_STUDENT_CAMPUS:
-      return Object.assign({}, state, { studentChannelId: action.studentChannelId * 1 })
+      return Object.assign({}, state, { studentCampusId: action.studentCampusId * 1 })
     case ADD_STUDENT_TO_SERVER:
-      return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '', studentChannelId: 0 })
+      return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '', studentCampusId: 0 })
     case REMOVE_STUDENT_FROM_SERVER:
       return Object.assign({}, state, { students: state.students.filter(student=> student.id != action.studentId) })
     default: return state

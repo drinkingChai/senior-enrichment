@@ -1,47 +1,35 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import store from '../store'
-import { fetchAllCampus, writeStudentName, setStudentCampus, createNewStudent } from '../reducers'
+import { writeStudentName, setStudentCampus, createNewStudent } from '../reducers'
 
-export default class AddStudent extends Component {
+class AddStudent extends Component {
   constructor() {
     super()
-    this.state = store.getState()
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
-
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(()=> {
-      this.setState(store.getState())
-    })
-
-    store.dispatch(fetchAllCampus())
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
+  
   onChangeHandler(ev) {
     ev.preventDefault()
     switch (ev.target.name) {
       case 'name':
-        return store.dispatch(writeStudentName(ev.target.value))
+        return this.props.writeName(ev.target.value)
       case 'channelId':
-        return store.dispatch(setStudentCampus(ev.target.value)) 
+        return this.props.setCampus(ev.target.value)
       default:
     }
   }
 
   onSubmitHandler(ev) {
     ev.preventDefault()
-    const { studentNameEntry, studentChannelId } = this.state
+    const { studentNameEntry, studentCampusId } = this.props.state
 
-    store.dispatch(createNewStudent(studentNameEntry, studentChannelId))
+    store.dispatch(createNewStudent(studentNameEntry, studentCampusId))
   }
 
   render() {
-    const { campus, studentNameEntry, studentChannelId } = this.state
+    const { campus, studentNameEntry, studentCampusId } = this.props.state
     const { onChangeHandler, onSubmitHandler } = this
     
     return (
@@ -51,7 +39,7 @@ export default class AddStudent extends Component {
           <input name='name' value={ studentNameEntry } onChange={ onChangeHandler }/>
         </div>
 
-        <select name='channelId' value={ studentChannelId } onChange={ onChangeHandler }>
+        <select name='channelId' value={ studentCampusId } onChange={ onChangeHandler }>
           <option>--- none ---</option>
           { campus.map(camp=> <option key={ camp.id } value={ camp.id }>{ camp.name }</option>) }
         </select>
@@ -61,3 +49,19 @@ export default class AddStudent extends Component {
     )
   }
 }
+
+const mapStateToProps = (state)=> {
+  return {
+    state
+  }
+}
+
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    writeName: (name)=> dispatch(writeStudentName(name)),
+    setCampus: (campusId)=> dispatch(setStudentCampus(campusId)),
+    createStudent: (name, campusId)=> dispatch(createNewStudent(name, campusId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddStudent)

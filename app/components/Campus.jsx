@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import store from '../store'
-import { fetchAllCampus } from '../reducers'
 
 const Campus = (props)=> {
   const id = props.match.params.id * 1
@@ -20,8 +19,6 @@ const Campus = (props)=> {
     </div>
   )
 }
-
-store.dispatch(fetchAllCampus())
 
 const mapStateToProps = (state)=> {
   return {

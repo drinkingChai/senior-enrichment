@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import store from '../store'
-import { fetchAllCampus } from '../reducers'
+import { fetchAllCampus, fetchAllStudents } from '../reducers'
 import Nav from './Nav'
 import AllCampus from './AllCampus'
 import Campus from './Campus'
@@ -10,6 +10,11 @@ import Student from './Student'
 import AddStudent from './AddStudent'
 
 export default class Root extends Component {
+  componentDidMount() {
+    store.dispatch(fetchAllCampus())
+    store.dispatch(fetchAllStudents())
+  }
+
   render() {
 
     return (
