@@ -45,6 +45,7 @@ const addStudentToServer = (student)=> {
 }
 
 const updateStudentOnServer = (student)=> {
+  // change this name later!
   return {
     type: UPDATE_STUDENT_ON_SERVER,
     student
@@ -68,13 +69,12 @@ const fetchAllStudents = ()=> {
 }
 
 const fetchStudentsCampus = ()=> {
-  let students
   return Promise.all([
     axios.get('/api/students'),
     axios.get('/api/campus')
   ])
   .then(([ res1, res2 ])=> {
-    dispatch(updateStudentOnServer({ students: res1.data, campus: res2.data }))
+    return { students: res1.data, campus: res2.data }
   })
 }
 
@@ -92,6 +92,7 @@ const updateStudent = (studentId, info)=> {
   return (dispatch)=> {
     axios.put(`/api/students/${studentId}`, info)
       .then(fetchStudentsCampus)
+      .then(({ students, campus })=> dispatch(updateStudentOnServer({ students, campus })))
       //.then(response=> response.data)
       //.then(student=> dispatch(updateStudentOnServer(student)))
   }
@@ -126,7 +127,7 @@ const rootReducer = function(state = initialState, action) {
       return Object.assign({}, state, { students: [ ...state.students, action.student ], studentNameEntry: '', studentCampusId: 0 })
     case UPDATE_STUDENT_ON_SERVER:
       // replace with refetch from server
-      return Object.assign({}, state, { students: action.students, campus: action.campus })
+      return Object.assign({}, state, { students: action.student.students, campus: action.student.campus })
     case REMOVE_STUDENT_FROM_SERVER:
       return Object.assign({}, state, { students: state.students.filter(student=> student.id != action.studentId) })
    default: return state
