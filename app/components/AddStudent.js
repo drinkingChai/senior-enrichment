@@ -43,8 +43,7 @@ export default class AddStudent extends Component {
   render() {
     const { campus, studentNameEntry, studentChannelId } = this.state
     const { onChangeHandler, onSubmitHandler } = this
-
-    console.log(campus)
+    
     return (
       <form onSubmit={ onSubmitHandler }>
         <div>

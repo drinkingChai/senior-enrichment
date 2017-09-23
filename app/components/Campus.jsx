@@ -1,41 +1,32 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import store from '../store'
 import { fetchAllCampus } from '../reducers'
 
-export default class Campus extends Component {
-  constructor() {
-    super()
-    this.state = store.getState()
-    console.log('rendered')
-  }
-  
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(()=> {
-      this.setState(store.getState())
-    })
+const Campus = (props)=> {
+  const id = props.match.params.id * 1
+  const campus = props.state.campus.find(camp=> camp.id == id)
 
-    store.dispatch(fetchAllCampus())
-  }
+  return (
+    <div>
+      { 
+        campus && campus.students && campus.students.map(student=> (
+          <div key={ student.id }>
+            <Link to={ `/students/${student.id}` }>{ student.name }</Link>
+          </div>
+        ))
+      }
+    </div>
+  )
+}
 
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
+store.dispatch(fetchAllCampus())
 
-  render() {
-    const id = this.props.match.params.id * 1
-    const campus = this.state.campus.find(camp=> camp.id == id)
-
-    return (
-      <div>
-        { 
-          campus && campus.students && campus.students.map(student=> (
-            <div key={ student.id }>
-              <Link to={ `/students/${student.id}` }>{ student.name }</Link>
-            </div>
-          ))
-        }
-      </div>
-    )
+const mapStateToProps = (state)=> {
+  return {
+    state
   }
 }
+
+export default connect(mapStateToProps)(Campus)
