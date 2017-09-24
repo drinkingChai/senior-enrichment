@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { writeStudentName, setStudentCampus, updateStudent, resetStudent, fetchStudent } from '../reducers'
+import {
+  writeStudentName,
+  setStudentCampus,
+  updateStudent, 
+  resetStudent, 
+  fetchStudent } from '../reducers'
 
 class StudentForm extends Component {
   componentDidMount() {
@@ -14,28 +19,38 @@ class StudentForm extends Component {
   }
 
   render() {
-    const { student, campuses, onChangeHandler } = this.props
+    const { 
+      student,
+      campuses, 
+      onChangeHandler, 
+      onSubmitHandler } = this.props
+
+    const { name, campusId, id } = this.props.student
 
     return (
-      <form>
+      <form onSubmit={ onSubmitHandler }>
         <div>
           <label htmlFor='name'>Name</label>
-          <input name='name' value={ student.name } onChange={ onChangeHandler }/>
+          <input name='name' value={ name } onChange={ onChangeHandler }/>
         </div>
 
         <div>
-          <Link to={ `/campuses/${student.campus.id}` }>{ student.campus.name }</Link>
-        </div>
-
-        <div>
-          <select name='campusId' value={ student.campusId } onChange={ onChangeHandler }>
+          <select name='campusId' value={ campusId } onChange={ onChangeHandler }>
+            <option>--- none ---</option>
             { campuses.map(campus=> <option key={ campus.id } value={ campus.id }>{ campus.name }</option>) }  
           </select>
+        </div>
+
+        <div>
+          <button>Save</button>
         </div>
       </form>
     )
 
   }
+        //<div>
+          //<Link to={ `/campuses/${student.campus.id}` }>{ student.campus.name }</Link>
+        //</div>
 }
 
 const mapStateToProps = ({ student, campuses }) => {
@@ -46,16 +61,16 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onChangeHandler(ev) {
       const { name, value } = ev.target
-      // replace with an updateStudent
-      // unsure if this is great!
-      //dispatch(updateStudent({ name, value }))
-      // possibly dangerous
       switch (name) {
         case 'name':
           return dispatch(writeStudentName(value))
         case 'campusId':
           return dispatch(setStudentCampus(value))
       }
+    },
+    onSubmitHandler(ev) {
+      ev.preventDefault()
+      dispatch(updateStudent())
     },
     getStudent(id) {
       dispatch(fetchStudent(id))

@@ -1,13 +1,13 @@
 import axios from 'axios'
-import campuses from './campuses'
+import store from '../store'
 
 // ACTION NAMES
 
 const WRITE_STUDENT_NAME = 'WRITE_STUDENT_NAME'
 const SET_STUDENT_CAMPUS = 'SET_STUDENT_CAMPUS'
 const GET_STUDENT = 'GET_STUDENT'
-//const UPDATE_STUDENT = 'UPDATE_STUDENT'
 const RESET_STUDENT = 'RESET_STUDENT'
+const SAVE_STUDENT_TO_SERVER = 'SAVE_STUDENT_TO_SERVER'
 
 // ACTION CREATORS
 export const writeStudentName = name => {
@@ -17,14 +17,8 @@ export const writeStudentName = name => {
   }
 }
 
-//export const updateStudent = stateProp => {
-  //return {
-    //type: UPDATE_STUDENT,
-    //stateProp
-  //}
-//}
-
 export const setStudentCampus = campusId => {
+  campusId = campusId * 1 || null
   return {
     type: SET_STUDENT_CAMPUS,
     campusId 
@@ -41,6 +35,22 @@ const getStudent = student => {
 export const resetStudent = () => {
   return {
     type: RESET_STUDENT
+  }
+}
+
+export const updateStudent = () => dispatch => {
+  // take this out to studentCampus
+  // NUKE IT!
+  const { student } = store.getState()
+
+  if (student.id) {
+    axios.put(`/api/students/${student.id}`, student)
+      .then(response=> response.data)
+      .then(student=> dispatch(getStudent(student)))
+  } else {
+    axios.post('/api/students', student)
+      .then(response=> response.data)
+      .then(student=> dispatch(getStudent(student)))
   }
 }
 
@@ -63,11 +73,6 @@ export default function reducer (student = initialState, action) {
   switch (action.type) {
     case GET_STUDENT:
       return action.student
-    //case UPDATE_STUDENT:
-      //const { name, value } = action.stateProp
-      //const toModify = {}
-      //toModify[name] = value
-      //return { ...student, ...toModify }
     case WRITE_STUDENT_NAME:
       return { ...student, name: action.name }
     case SET_STUDENT_CAMPUS:
