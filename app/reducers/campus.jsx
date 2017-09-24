@@ -39,7 +39,7 @@ export const fetchCampus = id => dispatch => {
   axios.get(`/api/campuses/${id}`)
     .then(response=> response.data)
     .then(campus=> {
-      dispatch(getStudentFromServer(campus))
+      dispatch(getCampusFromServer(campus))
     })
 }
 
