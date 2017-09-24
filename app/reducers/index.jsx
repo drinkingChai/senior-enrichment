@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import campus from './campus'
+import campus from './campuses'
 import students from './students'
 
 const reducer = combineReducers({
@@ -8,5 +8,5 @@ const reducer = combineReducers({
 })
 
 export default reducer
-export * from './campus'
+export * from './campuses'
 export * from './students'

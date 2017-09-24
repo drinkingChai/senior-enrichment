@@ -6,7 +6,7 @@ const GET_CAMPUS_FROM_SERVER = 'GET_CAMPUS_FROM_SERVER'
 
 
 // ACTION CREATORS
-const getCampus = (campus) => {
+const getCampuses = (campus) => {
   return {
     type: GET_CAMPUS_FROM_SERVER,
     campus
@@ -20,7 +20,7 @@ const getCampus = (campus) => {
 export const fetchCampus = () => dispatch => {
   axios.get('/api/campus')
     .then(response=> response.data)
-    .then(campus=> dispatch(getCampus(campus)))
+    .then(campus=> dispatch(getCampuses(campus)))
 }
 
 
