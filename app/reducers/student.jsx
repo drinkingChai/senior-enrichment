@@ -2,7 +2,6 @@ import axios from 'axios'
 import store from '../store'
 
 // ACTION NAMES
-
 const WRITE_STUDENT_NAME = 'WRITE_STUDENT_NAME'
 const SET_STUDENT_CAMPUS = 'SET_STUDENT_CAMPUS'
 const GET_STUDENT = 'GET_STUDENT'
@@ -35,22 +34,6 @@ const getStudent = student => {
 export const resetStudent = () => {
   return {
     type: RESET_STUDENT
-  }
-}
-
-export const updateStudent = () => dispatch => {
-  // take this out to studentCampus
-  // NUKE IT!
-  const { student } = store.getState()
-
-  if (student.id) {
-    axios.put(`/api/students/${student.id}`, student)
-      .then(response=> response.data)
-      .then(student=> dispatch(getStudent(student)))
-  } else {
-    axios.post('/api/students', student)
-      .then(response=> response.data)
-      .then(student=> dispatch(getStudent(student)))
   }
 }
 

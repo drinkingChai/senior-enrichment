@@ -14,13 +14,6 @@ export const writeCampusName = name => {
   }
 }
 
-//export const setStudentCampus = campus => {
-  //return {
-    //type: SET_STUDENT_CAMPUS,
-    //campus
-  //}
-//}
-
 const getCampusFromServer = campus => {
   return {
     type: GET_CAMPUS_FROM_SERVER,

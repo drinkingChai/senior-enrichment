@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 // ACTION NAMES
-
 const GET_CAMPUSES_FROM_SERVER = 'GET_CAMPUSES_FROM_SERVER'
 
 // ACTION CREATORS
