@@ -8,8 +8,13 @@ const db = require('../db')
 api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
 // refactor
-api.get('/campus', (req, res, next)=> {
+api.get('/campuses', (req, res, next)=> {
   db.model('campus').findAll( { include: [ db.model('student') ] } )
+  .then(campuses=> res.send(campuses))
+})
+
+api.get('/campuses/:id', (req, res, next)=> {
+  db.model('campus').findById(req.params.id, { include: [ db.model('student') ] } )
   .then(campus=> res.send(campus))
 })
 

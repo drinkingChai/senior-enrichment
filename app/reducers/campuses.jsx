@@ -2,37 +2,29 @@ import axios from 'axios'
 
 // ACTION NAMES
 
-const GET_CAMPUS_FROM_SERVER = 'GET_CAMPUS_FROM_SERVER'
-
+const GET_CAMPUSES_FROM_SERVER = 'GET_CAMPUSES_FROM_SERVER'
 
 // ACTION CREATORS
-const getCampuses = (campus) => {
+const getCampuses = (campuses) => {
   return {
-    type: GET_CAMPUS_FROM_SERVER,
-    campus
+    type: GET_CAMPUSES_FROM_SERVER,
+    campuses
   }
 }
 
-
-
-
 // THUNK
-export const fetchCampus = () => dispatch => {
-  axios.get('/api/campus')
+export const fetchCampuses = () => dispatch => {
+  axios.get('/api/campuses')
     .then(response=> response.data)
-    .then(campus=> dispatch(getCampuses(campus)))
+    .then(campuses=> dispatch(getCampuses(campuses)))
 }
 
-
-
-
-
 // REDUCERS
-export default function reducer (campus = [], action) {
+export default function reducer (campuses = [], action) {
   switch (action.type) {
-    case GET_CAMPUS_FROM_SERVER:
-      return action.campus
+    case GET_CAMPUSES_FROM_SERVER:
+      return action.campuses
     default:
-      return campus
+      return campuses
   }
 }

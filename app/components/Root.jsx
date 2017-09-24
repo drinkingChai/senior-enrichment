@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import store from '../store'
-import { fetchCampus, fetchStudents } from '../reducers' 
+import { fetchCampuses, fetchStudents } from '../reducers' 
 import Nav from './Nav'
 import Campuses from './Campuses'
 import Students from './Students'
@@ -9,7 +9,7 @@ import StudentForm from './StudentForm'
 
 export default class Root extends Component {
   componentDidMount() {
-    store.dispatch(fetchCampus())
+    store.dispatch(fetchCampuses())
     store.dispatch(fetchStudents())
   }
 
