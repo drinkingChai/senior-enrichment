@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { writeCampusName, resetCampus, fetchCampus } from '../reducers'
 
@@ -20,6 +21,15 @@ class CampusForm extends Component {
         <div>
           <label htmlFor='name'>Name</label>
           <input name='name' value={ campus.name } onChange={ onChangeHandler }/>
+        </div>
+
+        <div>
+          { campus.students.map(student=> (
+              <div key={ student.id }>
+                <Link key={ student.id } to={ `/students/${student.id}` }>{ student.name }</Link>
+              </div>
+            ))
+          }
         </div>
       </form>
     )

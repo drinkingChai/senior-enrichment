@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { writeStudentName, setStudentCampus, resetStudent, fetchStudent } from '../reducers'
 
@@ -20,6 +21,10 @@ class StudentForm extends Component {
         <div>
           <label htmlFor='name'>Name</label>
           <input name='name' value={ student.name } onChange={ onChangeHandler }/>
+        </div>
+
+        <div>
+          <Link to={ `/campuses/${student.campus.id}` }>{ student.campus.name }</Link>
         </div>
       </form>
     )
