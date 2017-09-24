@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { writeStudentName, fetchStudent, resetState } from '../reducers'
+import { writeStudentName, setStudentCampus, fetchStudent } from '../reducers'
 
 class StudentForm extends Component {
   componentDidMount() {
@@ -9,20 +9,20 @@ class StudentForm extends Component {
   }
 
   render() {
-    const { student, onChangeHandler } = this.props
+    const { studentName, studentCampus, onChangeHandler } = this.props
     return (
       <form>
         <div>
           <label htmlFor='name'>Name</label>
-          <input name='name' value={ student.name } onChange={ onChangeHandler }/>
+          <input name='name' value={ studentName } onChange={ onChangeHandler }/>
         </div>
       </form>
     )
   }
 }
 
-const mapStateToProps = ({ student }) => {
-  return { student }
+const mapStateToProps = ({ studentName, studentCampus }) => {
+  return { studentName, studentCampus }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -34,7 +34,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchStudent(id))
     },
     resetForm() {
-      dispatch(resetState())
+      dispatch(writeStudentName(''))
+      dispatch(setStudentCampus(0))
     }
   }
 }
