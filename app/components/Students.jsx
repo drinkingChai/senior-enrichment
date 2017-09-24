@@ -12,6 +12,7 @@ const Students = ({ students })=> {
           </div>
         ))
       }
+      <Link to='/add-student'>Add student</Link>
     </div>
   )
 }

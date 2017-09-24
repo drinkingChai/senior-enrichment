@@ -1,20 +1,29 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { writeStudent } from '../reducers'
+import store from '../store'
+import { writeStudent, getStudent } from '../reducers'
 
-const StudentForm = ({ students, studentName, onChangeHandler, ownProps }) => {
-  return (
-    <form>
-      <div>
-        <label htmlFor='name'>Name</label>
-        <input name='name' value={ studentName } onChange={ onChangeHandler }/>
-      </div>
-    </form>
-  )
+class StudentForm extends Component {
+  componentDidMount() {
+    const { id } = this.props.match.params
+    id ? this.props.loadStudent(id) : store.dispatch(writeStudent(''))
+  }
+
+  render() {
+    const { studentName, onChangeHandler } = this.props
+
+    return (
+      <form>
+        <div>
+          <label htmlFor='name'>Name</label>
+          <input name='name' value={ studentName } onChange={ onChangeHandler }/>
+        </div>
+      </form>
+    )
+  }
 }
 
 const mapStateToProps = ({ students, studentName }, ownProps) => {
-  // replace with active student
   return { students, studentName, ownProps }
 }
 
@@ -22,7 +31,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onChangeHandler(ev) {
       dispatch(writeStudent(ev.target.value))
-    }
+    },
+    loadStudent: (id)=> dispatch(getStudent(id))
   }
 }
 

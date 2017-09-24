@@ -1,7 +1,9 @@
+import axios from 'axios'
+
 // ACTION NAMES
 
 const WRITE_STUDENT = 'WRITE_STUDENT'
-
+const GET_STUDENT = 'GET_STUDENT'
 
 // ACTION CREATORS
 export const writeStudent = (studentName) => {
@@ -9,6 +11,14 @@ export const writeStudent = (studentName) => {
     type: WRITE_STUDENT,
     studentName
   }
+}
+
+
+// THUNK
+export const getStudent = id => dispatch => {
+  axios.get(`/api/students/${id}`)
+    .then(response=> response.data)
+    .then(student=> dispatch(writeStudent(student.name)))
 }
 
 

@@ -21,6 +21,7 @@ export default class Root extends Component {
         <Route exact path='/campuses' component={ Campuses }/>
         <Route exact path='/students' component={ Students }/>
         <Route exact path='/students/:id' component={ StudentForm }/>
+        <Route exact path='/add-student' component={ StudentForm }/>
       </div>
     )
   }
