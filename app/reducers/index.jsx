@@ -1,15 +1,15 @@
 import { combineReducers } from 'redux'
 import campus from './campuses'
 import students from './students'
-import studentName from './writeStudent'
+import student from './student'
 
 const reducer = combineReducers({
   campus,
   students,
-  studentName
+  student 
 })
 
 export default reducer
 export * from './campuses'
 export * from './students'
-export * from './writeStudent'
+export * from './student'
