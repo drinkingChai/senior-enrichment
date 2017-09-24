@@ -1,28 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { writeStudentName, setStudentCampus, fetchStudent } from '../reducers'
+import { writeStudentName, setStudentCampus, resetStudent, fetchStudent } from '../reducers'
 
 class StudentForm extends Component {
   componentDidMount() {
     const { id } = this.props.match.params
-    id ? this.props.getStudent(id) : this.props.resetForm()
+    if (id) this.props.getStudent(id)
+  }
+
+  componentWillUnmount() {
+    this.props.resetForm()
   }
 
   render() {
-    const { studentName, studentCampus, onChangeHandler } = this.props
+    const { student, onChangeHandler } = this.props
+
     return (
       <form>
         <div>
           <label htmlFor='name'>Name</label>
-          <input name='name' value={ studentName } onChange={ onChangeHandler }/>
+          <input name='name' value={ student.name } onChange={ onChangeHandler }/>
         </div>
       </form>
     )
+
   }
 }
 
-const mapStateToProps = ({ studentName, studentCampus }) => {
-  return { studentName, studentCampus }
+const mapStateToProps = ({ student }) => {
+  return { student }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -34,8 +40,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchStudent(id))
     },
     resetForm() {
-      dispatch(writeStudentName(''))
-      dispatch(setStudentCampus(0))
+      dispatch(resetStudent())
     }
   }
 }
