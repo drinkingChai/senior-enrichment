@@ -10,14 +10,14 @@ export const updateStudent = () => dispatch => {
 
   if (student.id) {
     // new
-    return axios.put(`/api/students/${student.id}`, student)
+    return axios.put(`/api/students/${student.id}`, { ...student, campusId: student.campusId || null })
       .then(response=> response.data)
       .then(student=> {
       })
   } 
   // else
   // update
-  return axios.post('/api/students', student)
+  return axios.post('/api/students', { ...student, campusId: student.campusId || null })
     .then(response=> response.data)
     .then(student=> {
     })

@@ -35,7 +35,7 @@ class StudentForm extends Component {
         </div>
 
         <div>
-          <select name='campusId' value={ campusId } onChange={ onChangeHandler }>
+          <select name='campusId' value={ campusId || 0 } onChange={ onChangeHandler }>
             <option>--- none ---</option>
             { campuses.map(campus=> <option key={ campus.id } value={ campus.id }>{ campus.name }</option>) }  
           </select>
@@ -48,9 +48,6 @@ class StudentForm extends Component {
     )
 
   }
-        //<div>
-          //<Link to={ `/campuses/${student.campus.id}` }>{ student.campus.name }</Link>
-        //</div>
 }
 
 const mapStateToProps = ({ student, campuses }) => {
