@@ -5,20 +5,28 @@ import { fetchStudents } from './students'
 import { fetchCampuses } from './campuses'
 
 // ACTION NAMES
-export const updateStudent = () => dispatch => {
+export const updateStudent = (history) => dispatch => {
   const { student } = store.getState()
 
   if (student.id) {
-    // new
+    // update 
     return axios.put(`/api/students/${student.id}`, { ...student, campusId: student.campusId || null })
       .then(response=> response.data)
-      .then(student=> {
+      .then(()=> {
+        fetchAll(dispatch)
       })
   } 
   // else
-  // update
+  // new 
   return axios.post('/api/students', { ...student, campusId: student.campusId || null })
     .then(response=> response.data)
-    .then(student=> {
+    .then(_student=> {
+      fetchAll(dispatch)
+      history.push(`/students/${_student.id}`)
     })
+}
+
+const fetchAll = dispatch => {
+  dispatch(fetchStudents())
+  dispatch(fetchCampuses())
 }

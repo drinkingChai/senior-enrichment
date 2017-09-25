@@ -54,7 +54,7 @@ const mapStateToProps = ({ student, campuses }) => {
   return { student, campuses }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeHandler(ev) {
       const { name, value } = ev.target
@@ -67,7 +67,8 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSubmitHandler(ev) {
       ev.preventDefault()
-      dispatch(updateStudent())
+      const { history } = ownProps
+      dispatch(updateStudent(history))
     },
     getStudent(id) {
       dispatch(fetchStudent(id))

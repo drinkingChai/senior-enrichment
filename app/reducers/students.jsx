@@ -13,7 +13,7 @@ const getStudents = students => {
 
 // THUNK
 export const fetchStudents = () => dispatch => {
-  axios.get('/api/students')
+  return axios.get('/api/students')
     .then(response=> response.data)
     .then(students=> dispatch(getStudents(students)))
 }
