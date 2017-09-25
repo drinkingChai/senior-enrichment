@@ -10,3 +10,4 @@ const reducer = combineReducers({
 export default reducer
 export * from './campuses'
 export * from './students'
+export * from './studentsCampuses'

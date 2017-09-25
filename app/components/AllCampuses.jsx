@@ -1,11 +1,29 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
-export default class AllCampuses extends Component {
+class AllCampuses extends Component {
   render() {
+    const { campuses } = this.props
+
     return (
       <div>
         <h3>Campuses</h3>
+
+        <div>
+          { campuses.map(campus=> (
+            <div key={ campus.id }>
+              <Link to={ `/campuses/${campus.id}` }>{ campus.name }</Link>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }
 }
+
+const mapState = ({ campuses }) => {
+  return { campuses }
+}
+
+export default connect(mapState)(AllCampuses)
