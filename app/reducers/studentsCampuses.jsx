@@ -10,6 +10,15 @@ export const removeCampusFromStudent = id => dispatch => {
       dispatch(fetchAllStudents())
       dispatch(fetchAllCampuses())
     })
-  //console.log(student)
-  //dispatch(getAllStudents(store.getState().students))
+}
+
+export const addStudentToCampus = (studentId, campusId) => dispatch => {
+  // optimisitc
+  // can also remove dispatch and do store.dispatch for fetch all
+  const student = store.getState().students.find(s=> s.id == studentId)
+  return axios.put(`/api/students/${student.id}`, { ...student, campusId })
+    .then(()=> {
+      dispatch(fetchAllStudents())
+      dispatch(fetchAllCampuses())
+    })
 }

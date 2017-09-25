@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { removeCampusFromStudent } from '../reducers'
+import StudentSelector from './StudentSelector'
 
 class Campus extends Component {
   render() {
     const campus = this.props.campuses.find(c=> c.id == this.props.match.params.id)
+    const studentsWithoutCampus = this.props.students.filter(s=> !s.campusId)
 
     if (!campus) return <div></div>
 
@@ -17,6 +19,7 @@ class Campus extends Component {
             <button value={ student.id } onClick={ this.props.onRemoveHandler }>Remove</button>
           </div>
         ))}
+        { studentsWithoutCampus.length ? <StudentSelector students={ studentsWithoutCampus } campusId={ campus.id }/> : null }
       </div>
     )
   }
