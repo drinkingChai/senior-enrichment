@@ -1,5 +1,5 @@
 {
-  "name": "wz-senior-enrichment",
+  "name": "margaretacademy",
   "version": "0.0.1",
   "description": "A review time project",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "test": "mocha **/*.test.js *.test.js",
     "build": "webpack",
     "build-watch": "webpack -w",
-    "start": "webpack -w & DATABASE_NAME=margaretacademy nodemon server/start.js --ignore app/ --ignore public/"
+    "start": "webpack -w & DATABASE_NAME=margaretacademy nodemon server/start.js --ignore app/ --ignore public/",
+    "seed": "node db/seed.js"
   },
   "keywords": [
     "react",
