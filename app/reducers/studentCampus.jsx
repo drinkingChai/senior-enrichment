@@ -5,7 +5,7 @@ import { fetchStudents } from './students'
 import { fetchCampuses } from './campuses'
 
 // ACTION NAMES
-export const updateStudent = (history) => dispatch => {
+export const updateStudent = () => dispatch => {
   const { student } = store.getState()
 
   if (student.id) {

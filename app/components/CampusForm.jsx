@@ -101,7 +101,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onStudentRemoveHandler(ev) {
       ev.preventDefault()
-      console.log(ev.target.value)
       dispatch(fetchStudent(ev.target.value))
         .then(()=> {
           dispatch(setStudentCampus(null))
