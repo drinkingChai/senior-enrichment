@@ -19,14 +19,6 @@ export const fetchAllStudents = () => dispatch => {
     .then(students=> dispatch(getAllStudents(students)))
 }
 
-//export const removeCampusFromStudent = id => dispatch => {
-  //const student = store.getState().students.find(s=> s.id == id)
-  //return axios.put(`/api/students/${student.id}`, { ...student, campusId: null })
-    //.then(()=> dispatch(fetchAllStudents()))
-  ////console.log(student)
-  //dispatch(getAllStudents(store.getState().students))
-//}
-
 // REDUCER
 export default function reducer (students = [], action) {
   switch (action.type) {
