@@ -24,11 +24,20 @@ export const updateCampus = () => dispatch => {
       .then(()=> fetchAll(dispatch))
   }
   return axios.post('/api/campuses', campus)
-    .then(()=> fetchAll(dispatch))
+    .then(response=> response.data)
+    .then(campus=> {
+      fetchAll(dispatch) // async?
+      return campus
+    })
 }
 
 export const deleteStudent = id => dispatch => {
   return axios.delete(`/api/students/${id}`)
+    .then(()=> fetchAll(dispatch))
+}
+
+export const deleteCampus = id => dispatch => {
+  return axios.delete(`/api/campuses/${id}`)
     .then(()=> fetchAll(dispatch))
 }
 

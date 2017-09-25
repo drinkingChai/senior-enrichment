@@ -29,6 +29,12 @@ api.put('/campuses/:id', (req, res, next)=> {
     .then(campus=> res.send(campus))
 })
 
+api.delete('/campuses/:id', (req, res, next)=> {
+  db.model('campus').findById(req.params.id)
+    .then(campus=> campus.destroy())
+    .then(()=> res.send(200))
+})
+
 api.get('/students', (req, res, next)=> {
   db.model('student').findAll( { include: [ db.model('campus') ] } )
   .then(students=> res.send(students))

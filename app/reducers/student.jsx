@@ -39,7 +39,7 @@ export const resetStudent = () => {
 
 // THUNK
 export const fetchStudent = id => dispatch => {
-  axios.get(`/api/students/${id}`)
+  return axios.get(`/api/students/${id}`)
     .then(response=> response.data)
     .then(student=> {
       dispatch(getStudent(student))
