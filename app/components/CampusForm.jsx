@@ -5,12 +5,12 @@ import {
   writeCampusName, 
   resetCampus, 
   fetchCampus,
-  updateCampus } from '../reducers'
+  updateCampus,
+  deleteStudent } from '../reducers'
 
 class CampusForm extends Component {
   componentDidMount() {
-    const { id } = this.props.match.params
-    if (id) this.props.getCampus(id)
+    this.props.getCampus()
   }
 
   componentWillUnmount() {
@@ -22,7 +22,7 @@ class CampusForm extends Component {
       campus, 
       onChangeHandler,
       onSubmitHandler,
-      onStudentDeleteHandler,
+      onStudentRemoveHandler,
       onCampusDeleteHandler } = this.props
 
     return (
@@ -40,7 +40,7 @@ class CampusForm extends Component {
           { campus.students.map(student=> (
               <div key={ student.id }>
                 <Link key={ student.id } to={ `/students/${student.id}` }>{ student.name }</Link>
-                <button onClick={ onStudentDeleteHandler }>Delete</button>
+                <button value={ student.id } onClick={ onStudentRemoveHandler }>Delete</button>
               </div>
             ))
           }
@@ -55,7 +55,7 @@ const mapStateToProps = ({ campus }) => {
   return { campus }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeHandler(ev) {
       dispatch(writeCampusName(ev.target.value))
@@ -64,12 +64,16 @@ const mapDispatchToProps = (dispatch) => {
       ev.preventDefault()
       dispatch(updateCampus())
     },
-    onStudentDeleteHandler(ev) {
+    onStudentRemoveHandler(ev) {
+      ev.preventDefault()
+      dispatch(deleteStudent(ev.target.value))
+        .then(()=> dispatch(fetchCampus(ownProps.match.params.id)))
     },
     onCampusDeleteHandler(ev) {
     },
-    getCampus(id) {
-      dispatch(fetchCampus(id))
+    getCampus() {
+      const { id } = ownProps.match.params
+      if (id) dispatch(fetchCampus(id)) 
     },
     resetForm() {
       dispatch(resetCampus())

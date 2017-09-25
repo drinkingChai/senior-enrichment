@@ -9,12 +9,9 @@ export const updateStudent = (history) => dispatch => {
   const { student } = store.getState()
 
   if (student.id) {
-    // update 
     return axios.put(`/api/students/${student.id}`, { ...student, campusId: student.campusId || null })
       .then(()=> fetchAll(dispatch))
   } 
-  // else
-  // new 
   return axios.post('/api/students', { ...student, campusId: student.campusId || null })
     .then(()=> fetchAll(dispatch))
 }
@@ -23,13 +20,15 @@ export const updateCampus = () => dispatch => {
   const { campus } = store.getState()
 
   if (campus.id) {
-    // update
     return axios.put(`/api/campuses/${campus.id}`, campus)
       .then(()=> fetchAll(dispatch))
   }
-  // else
-  // new
   return axios.post('/api/campuses', campus)
+    .then(()=> fetchAll(dispatch))
+}
+
+export const deleteStudent = id => dispatch => {
+  return axios.delete(`/api/students/${id}`)
     .then(()=> fetchAll(dispatch))
 }
 
