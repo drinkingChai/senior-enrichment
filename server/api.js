@@ -18,6 +18,17 @@ api.get('/campuses/:id', (req, res, next)=> {
   .then(campus=> res.send(campus))
 })
 
+api.post('/campuses', (req, res, next)=> {
+  db.model('campus').create(req.body)
+    .then(campus=> res.status(203).send(campus))
+})
+
+api.put('/campuses/:id', (req, res, next)=> {
+  db.model('campus').findById(req.params.id)
+    .then(campus=> campus.update(req.body))
+    .then(campus=> res.send(campus))
+})
+
 api.get('/students', (req, res, next)=> {
   db.model('student').findAll( { include: [ db.model('campus') ] } )
   .then(students=> res.send(students))

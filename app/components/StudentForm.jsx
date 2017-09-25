@@ -67,8 +67,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onSubmitHandler(ev) {
       ev.preventDefault()
-      const { history } = ownProps
-      dispatch(updateStudent(history))
+      dispatch(updateStudent())
     },
     getStudent(id) {
       dispatch(fetchStudent(id))

@@ -11,19 +11,26 @@ export const updateStudent = (history) => dispatch => {
   if (student.id) {
     // update 
     return axios.put(`/api/students/${student.id}`, { ...student, campusId: student.campusId || null })
-      .then(response=> response.data)
-      .then(()=> {
-        fetchAll(dispatch)
-      })
+      .then(()=> fetchAll(dispatch))
   } 
   // else
   // new 
   return axios.post('/api/students', { ...student, campusId: student.campusId || null })
-    .then(response=> response.data)
-    .then(_student=> {
-      fetchAll(dispatch)
-      history.push(`/students/${_student.id}`)
-    })
+    .then(()=> fetchAll(dispatch))
+}
+
+export const updateCampus = () => dispatch => {
+  const { campus } = store.getState()
+
+  if (campus.id) {
+    // update
+    return axios.put(`/api/campuses/${campus.id}`, campus)
+      .then(()=> fetchAll(dispatch))
+  }
+  // else
+  // new
+  return axios.post('/api/campuses', campus)
+    .then(()=> fetchAll(dispatch))
 }
 
 const fetchAll = dispatch => {
