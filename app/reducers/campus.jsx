@@ -2,6 +2,9 @@ import axios from 'axios'
 
 // ACTION NAMES
 const GET_CAMPUS_FROM_SERVER = 'GET_CAMPUS_FROM_SERVER'
+const WRITE_CAMPUS_NAME = 'WRITE_CAMPUS_NAME'
+const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
+const CREATE_CAMPUS = 'CREATE_CAMPUS'
 const RESET_CAMPUS = 'RESET_CAMPUS'
 const REMOVE_STUDENT = 'REMOVE_STUDENT'
 
@@ -9,6 +12,20 @@ const REMOVE_STUDENT = 'REMOVE_STUDENT'
 const getCampusFromServer = campus => {
   return {
     type: GET_CAMPUS_FROM_SERVER,
+    campus
+  }
+}
+
+export const writeCampusName = name => {
+  return {
+    type: WRITE_CAMPUS_NAME,
+    name
+  }
+}
+
+const updateCampus = campus => {
+  return {
+    type: UPDATE_CAMPUS,
     campus
   }
 }
@@ -40,6 +57,16 @@ export const removeStudentFromCampus = (campus, studentId) => dispatch => {
     .then(()=> dispatch(removeStudent(studentId)))
 }
 
+export const createCampusOnServer = (campus, history) => dispatch => {
+  return axios.post('/api/campuses', campus)
+    .then(()=> history.push('/'))
+}
+
+export const updateCampusOnServer = (campus) => dispatch => {
+  return axios.put(`/api/campuses/${campus.id}`, campus)
+    .then(()=> dispatch(updateCampus(campus)))
+}
+
 // INITIAL STATE
 const initialState = {
   name: '',
@@ -51,6 +78,10 @@ export default function reducer (campus = initialState, action) {
   switch (action.type) {
     case GET_CAMPUS_FROM_SERVER:
       return action.campus
+    case WRITE_CAMPUS_NAME:
+      return { ...campus, name: action.name }
+    case UPDATE_CAMPUS:
+      return { ...campus, ...action.campus }
     case REMOVE_STUDENT:
       return { ...campus, students: campus.students.filter(s=> s.id !== action.studentId * 1) }
     case RESET_CAMPUS:

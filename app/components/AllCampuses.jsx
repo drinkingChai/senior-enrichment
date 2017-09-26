@@ -1,26 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-class AllCampuses extends Component {
-  render() {
-    const { campuses } = this.props
+const AllCampuses = ({ campuses }) => {
+  return (
+    <div>
+      <h3>Campuses</h3>
 
-    return (
       <div>
-        <h3>Campuses</h3>
-
-        <div>
-          { campuses.map(campus=> (
-            <div key={ campus.id }>
-              <Link to={ `/campuses/${campus.id}` }>{ campus.name }</Link>
-            </div>
-          ))}
-        </div>
+        { campuses.map(campus=> (
+          <div key={ campus.id }>
+            <Link to={ `/campuses/${campus.id}` }>{ campus.name }</Link>
+          </div>
+        ))}
       </div>
-    )
-  }
+    </div>
+  )
 }
+//}
 
 const mapState = ({ campuses }) => {
   return { campuses }
