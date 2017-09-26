@@ -68,6 +68,8 @@ class Campus extends Component {
 
           <button>{ campus.id ? 'Update' : 'Create' }</button>
         </form>
+
+        <Link to={ `/campuses/${campus.id}/add-students` }>Add Student</Link>
       
         {/* separate the student list */}
         {

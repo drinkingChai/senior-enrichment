@@ -27,7 +27,6 @@ export const fetchCampuses = () => dispatch => {
 }
 
 export const removeCampus = id => dispatch => {
-  console.log('called')
   return axios.delete(`/api/campuses/${id}`)
     .then(()=> dispatch(deleteCampus(id)))
 }
