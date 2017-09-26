@@ -6,15 +6,13 @@ import {
   createCampusOnServer,
   updateCampusOnServer,
   resetCampus,
-  removeStudentCampus,
-  removeStudent } from '../reducers'
+  removeStudentCampus } from '../reducers'
 
 class Campus extends Component {
   constructor() {
     super()
     this.state = { campus: { name: '', students: [] } }
     this.onRemoveStudentHandler = this.onRemoveStudentHandler.bind(this)
-    this.onDeleteStudentHandler = this.onDeleteStudentHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
@@ -46,15 +44,6 @@ class Campus extends Component {
       })
   }
 
-  onDeleteStudentHandler(ev) {
-    const { campus } = this.state
-    const studentId = ev.target.value * 1
-    this.props.deleteStudent(studentId)
-      .then(()=> {
-        this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != studentId) } })
-      })
-  }
-
   onSubmitHandler(ev) {
     ev.preventDefault()
     const { update, create } = this.props
@@ -66,7 +55,6 @@ class Campus extends Component {
     const { campus } = this.state
     const {
       onRemoveStudentHandler,
-      onDeleteStudentHandler,
       onChangeHandler,
       onSubmitHandler } = this
 
@@ -87,7 +75,6 @@ class Campus extends Component {
             <div key={ student.id }>
               <h5>{ student.name }</h5>
               <button value={ student.id } onClick={ onRemoveStudentHandler }>Remove</button>
-              <button value={ student.id } onClick={ onDeleteStudentHandler }>Delete</button>
             </div>
           ))
         }
@@ -107,7 +94,6 @@ const mapDispatch = dispatch => {
     create: campus => dispatch(createCampusOnServer(campus)),
     update: campus => dispatch(updateCampusOnServer(campus)),
     removeFromCampus: student => dispatch(removeStudentCampus(student)),
-    deleteStudent: id => dispatch(removeStudent(id)),
     reset: () => dispatch(resetCampus())
   }
 }

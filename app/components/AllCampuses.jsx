@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { fetchCampuses } from '../reducers'
+import { fetchCampuses, removeCampus } from '../reducers'
 
 class AllCampuses extends Component {
   componentDidMount() {
@@ -9,7 +9,7 @@ class AllCampuses extends Component {
   }
 
   render() {
-    const { campuses } = this.props
+    const { campuses, deleteCampus } = this.props
 
     return (
       <div>
@@ -19,6 +19,7 @@ class AllCampuses extends Component {
           { campuses.map(campus=> (
             <div key={ campus.id }>
               <Link to={ `/campuses/${campus.id}` }>{ campus.name }</Link>
+              <button value={ campus.id } onClick={ deleteCampus }>Delete</button>
             </div>
           ))}
         </div>
@@ -33,7 +34,8 @@ const mapState = ({ campuses }) => {
 
 const mapDispatch = dispatch => {
   return {
-    getFromServer: () => dispatch(fetchCampuses())
+    getFromServer: () => dispatch(fetchCampuses()),
+    deleteCampus: ev => dispatch(removeCampus(ev.target.value))
   }
 }
 
