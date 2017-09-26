@@ -5,7 +5,6 @@ const GET_CAMPUS_FROM_SERVER = 'GET_CAMPUS_FROM_SERVER'
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
 const CREATE_CAMPUS = 'CREATE_CAMPUS'
 const RESET_CAMPUS = 'RESET_CAMPUS'
-const REMOVE_STUDENT = 'REMOVE_STUDENT'
 
 // ACTION CREATORS
 const getCampusFromServer = campus => {
@@ -19,13 +18,6 @@ const updateCampus = campus => {
   return {
     type: UPDATE_CAMPUS,
     campus
-  }
-}
-
-const removeStudent = studentId => {
-  return {
-    type: REMOVE_STUDENT,
-    studentId
   }
 }
 
@@ -65,8 +57,6 @@ export default function reducer (campus = initialState, action) {
       return action.campus
     case UPDATE_CAMPUS:
       return { ...campus, ...action.campus }
-    case REMOVE_STUDENT:
-      return { ...campus, students: campus.students.filter(s=> s.id !== action.studentId * 1) }
     case RESET_CAMPUS:
       return initialState
     default:

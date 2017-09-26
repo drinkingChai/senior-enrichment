@@ -6,13 +6,15 @@ import {
   createCampusOnServer,
   updateCampusOnServer,
   resetCampus,
-  removeStudentCampus } from '../reducers'
+  removeStudentCampus,
+  removeStudent } from '../reducers'
 
 class Campus extends Component {
   constructor() {
     super()
     this.state = { campus: { name: '', students: [] } }
     this.onRemoveStudentHandler = this.onRemoveStudentHandler.bind(this)
+    this.onDeleteStudentHandler = this.onDeleteStudentHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
@@ -36,8 +38,18 @@ class Campus extends Component {
   onRemoveStudentHandler(ev) {
     const { campus } = this.state
     const studentId = ev.target.value * 1
-    const student = campus.students.find(s=> s.id == studentId)
+    const student = campus.students.find(s=> s.id == studentId) // maybe remove this
+    // streamline this a bit by doing it by id only?
     this.props.removeFromCampus(student)
+      .then(()=> {
+        this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != studentId) } })
+      })
+  }
+
+  onDeleteStudentHandler(ev) {
+    const { campus } = this.state
+    const studentId = ev.target.value * 1
+    this.props.deleteStudent(studentId)
       .then(()=> {
         this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != studentId) } })
       })
@@ -54,6 +66,7 @@ class Campus extends Component {
     const { campus } = this.state
     const {
       onRemoveStudentHandler,
+      onDeleteStudentHandler,
       onChangeHandler,
       onSubmitHandler } = this
 
@@ -74,6 +87,7 @@ class Campus extends Component {
             <div key={ student.id }>
               <h5>{ student.name }</h5>
               <button value={ student.id } onClick={ onRemoveStudentHandler }>Remove</button>
+              <button value={ student.id } onClick={ onDeleteStudentHandler }>Delete</button>
             </div>
           ))
         }
@@ -93,6 +107,7 @@ const mapDispatch = dispatch => {
     create: campus => dispatch(createCampusOnServer(campus)),
     update: campus => dispatch(updateCampusOnServer(campus)),
     removeFromCampus: student => dispatch(removeStudentCampus(student)),
+    deleteStudent: id => dispatch(removeStudent(id)),
     reset: () => dispatch(resetCampus())
   }
 }
