@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   fetchCampus,
-  writeCampusName,
   createCampusOnServer,
   updateCampusOnServer,
   resetCampus,
@@ -12,6 +11,7 @@ import {
 class Campus extends Component {
   constructor() {
     super()
+    this.state = { campus: { name: '', students: [] } }
     this.onRemoveStudentHandler = this.onRemoveStudentHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -21,7 +21,7 @@ class Campus extends Component {
     const { id } = this.props.ownProps.match.params
     const { fetchById } = this.props
 
-    fetchById(id)
+    fetchById(id).then(action=> this.setState({ campus: action.campus }))
   }
 
   componentWillUnmount() {
@@ -29,7 +29,8 @@ class Campus extends Component {
   }
 
   onChangeHandler(ev) {
-    this.props.writeName(ev.target.value)
+    const { campus } = this.state
+    this.setState({ campus: { ...campus, name: ev.target.value }})
   }
 
   onRemoveStudentHandler(ev) {
@@ -38,12 +39,13 @@ class Campus extends Component {
 
   onSubmitHandler(ev) {
     ev.preventDefault()
-    const { campus, update, create } = this.props
+    const { update, create } = this.props
+    const { campus } = this.state
     campus.id ? update(campus) : create(campus)
   }
 
   render() {
-    const { campus } = this.props
+    const { campus } = this.state
     const {
       onRemoveStudentHandler,
       onChangeHandler,

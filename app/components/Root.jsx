@@ -9,8 +9,8 @@ import AllStudents from './AllStudents'
 
 export default class Root extends Component {
   componentDidMount() {
-    store.dispatch(fetchCampuses())
-    store.dispatch(fetchStudents())
+    //store.dispatch(fetchCampuses())
+    //store.dispatch(fetchStudents())
   }
 
   render() {

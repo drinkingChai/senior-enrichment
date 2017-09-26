@@ -9,12 +9,12 @@ api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
 // refactor
 api.get('/campuses', (req, res, next)=> {
-  db.model('campus').findAll( { include: [ db.model('student') ] } )
+  db.model('campus').findAll( { include: [ db.model('student') ], order: [ 'name' ] } )
   .then(campuses=> res.send(campuses))
 })
 
 api.get('/campuses/:id', (req, res, next)=> {
-  db.model('campus').findById(req.params.id, { include: [ db.model('student') ] } )
+  db.model('campus').findById(req.params.id, { include: [ db.model('student') ], order: [ 'name' ] } )
   .then(campus=> res.send(campus))
 })
 
