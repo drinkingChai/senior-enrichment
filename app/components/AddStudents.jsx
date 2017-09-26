@@ -1,34 +1,37 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchStudents } from '../reducers'
+import { fetchStudents, addStudentCampus } from '../reducers'
 
 class AddStudents extends Component {
   constructor() {
     super()
     this.state = { studensToAdd: [] }
-    this.onSubmitHandler = this.onSubmitHandler.bind(this)
     this.toggleSelect = this.toggleSelect.bind(this)
+    this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
 
   componentDidMount() {
     this.props.getFromServer()
   }
 
-  toggleSelect(id) {
+  toggleSelect(student) {
     const { studensToAdd } = this.state
 
-    if (!studensToAdd.includes(id)) this.setState({ studensToAdd: [ ...studensToAdd, id ] })
-    else this.setState({ studensToAdd: studensToAdd.filter(_id=> _id != id) })
+    if (!studensToAdd.includes(student)) this.setState({ studensToAdd: [ ...studensToAdd, student ] })
+    else this.setState({ studensToAdd: studensToAdd.filter(s=> s.id != student.id) })
   }
 
   onSubmitHandler(ev) {
     ev.preventDefault()
+    this.props.addStudentsToCampus(this.state.studensToAdd)
+      .then(()=> this.props.getFromServer())
   }
 
   render() {
-    const studentsWithoutCampus = this.props.students.filter(student=> !student.campusId)
+    const { students, addCampusToStudents } = this.props
     const { studensToAdd } = this.state
-    const { onSubmitHandler, toggleSelect } = this
+    const { toggleSelect, onSubmitHandler } = this
+    const studentsWithoutCampus = students.filter(student=> !student.campusId)
 
     return (
       <div>
@@ -36,9 +39,9 @@ class AddStudents extends Component {
 
         <form onSubmit={ onSubmitHandler }>
           { studentsWithoutCampus.map(student=> (
-            <div onClick={ ()=> toggleSelect(student.id) } key={ student.id }>
+            <div onClick={ ()=> toggleSelect(student) } key={ student.id }>
               { student.name }
-              { studensToAdd.includes(student.id) ? <span>Selected</span> : null }
+              { studensToAdd.includes(student) ? <span>Selected</span> : null }
             </div>
           ))}
           <button>Add</button>
@@ -48,13 +51,19 @@ class AddStudents extends Component {
   }
 }
 
-const mapState = ({ students }) => {
-  return { students }
+const mapState = ({ students }, ownProps) => {
+  return { students, ownProps }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
-    getFromServer: () => dispatch(fetchStudents())
+    getFromServer: () => dispatch(fetchStudents()),
+    addStudentsToCampus: (students) => {
+      const { id } = ownProps.match.params
+      return Promise.all(
+        students.map(student => dispatch(addStudentCampus(student, id)))
+      )
+    }
   }
 }
 

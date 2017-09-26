@@ -9,12 +9,12 @@ api.get('/hello', (req, res) => res.send({hello: 'world'}))
 
 // refactor
 api.get('/campuses', (req, res, next)=> {
-  db.model('campus').findAll( { include: [ db.model('student') ], order: [ 'name' ] } )
+  db.model('campus').findAll( { include: [ { model: db.model('student'), order: ['name'] } ], order: [ 'name' ] } )
   .then(campuses=> res.send(campuses))
 })
 
 api.get('/campuses/:id', (req, res, next)=> {
-  db.model('campus').findById(req.params.id, { include: [ db.model('student') ], order: [ 'name' ] } )
+  db.model('campus').findById(req.params.id, { include: [ db.model('student') ] } )
   .then(campus=> res.send(campus))
 })
 
@@ -36,7 +36,7 @@ api.delete('/campuses/:id', (req, res, next)=> {
 })
 
 api.get('/students', (req, res, next)=> {
-  db.model('student').findAll( { include: [ db.model('campus') ] } )
+  db.model('student').findAll( { include: [ db.model('campus') ], order: [ 'name' ] } )
   .then(students=> res.send(students))
 })
 
