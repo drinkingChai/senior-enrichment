@@ -81,7 +81,6 @@ const mapDispatch = dispatch => {
   return {
     fetchStudentById: id => dispatch(fetchStudent(id)),
     getCampuses: () => dispatch(fetchCampuses()),
-    writeName: name => dispatch(writeStudentName(name)),
     create: student => dispatch(createStudentOnServer(student, ownProps.history)),
     update: student => dispatch(updateStudentOnServer(student)),
     reset: () => dispatch(resetStudent())

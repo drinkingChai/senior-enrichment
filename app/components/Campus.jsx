@@ -33,14 +33,11 @@ class Campus extends Component {
     this.setState({ campus: { ...campus, name: ev.target.value }})
   }
 
-  onRemoveStudentHandler(ev) {
+  onRemoveStudentHandler(student) {
     const { campus } = this.state
-    const studentId = ev.target.value * 1
-    const student = campus.students.find(s=> s.id == studentId) // maybe remove this
-    // streamline this a bit by doing it by id only?
     this.props.removeFromCampus(student)
       .then(()=> {
-        this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != studentId) } })
+        this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != student.id) } })
       })
   }
 
@@ -76,7 +73,7 @@ class Campus extends Component {
           campus.students.map(student=> (
             <div key={ student.id }>
               <h5>{ student.name }</h5>
-              <button value={ student.id } onClick={ onRemoveStudentHandler }>Remove</button>
+              <button onClick={ () => onRemoveStudentHandler(student) }>Remove</button>
             </div>
           ))
         }
@@ -92,7 +89,6 @@ const mapState = ({ campus }, ownProps) => {
 const mapDispatch = (dispatch, ownProps) => {
   return {
     fetchByCampusId: id => dispatch(fetchCampus(id)),
-    writeName: name => dispatch(writeCampusName(name)),
     create: campus => dispatch(createCampusOnServer(campus, ownProps.history)),
     update: campus => dispatch(updateCampusOnServer(campus)),
     removeFromCampus: student => dispatch(removeStudentCampus(student)),

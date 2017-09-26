@@ -24,11 +24,10 @@ class AddStudents extends Component {
   onSubmitHandler(ev) {
     ev.preventDefault()
     this.props.addStudentsToCampus(this.state.studensToAdd)
-      .then(()=> this.props.getFromServer())
   }
 
   render() {
-    const { students, addCampusToStudents } = this.props
+    const { students } = this.props
     const { studensToAdd } = this.state
     const { toggleSelect, onSubmitHandler } = this
     const studentsWithoutCampus = students.filter(student=> !student.campusId)
@@ -60,9 +59,10 @@ const mapDispatch = (dispatch, ownProps) => {
     getFromServer: () => dispatch(fetchStudents()),
     addStudentsToCampus: (students) => {
       const { id } = ownProps.match.params
-      return Promise.all(
+      Promise.all(
         students.map(student => dispatch(addStudentCampus(student, id)))
       )
+      .then(()=> ownProps.history.push(`/campuses/${ownProps.match.params.id}`))
     }
   }
 }
