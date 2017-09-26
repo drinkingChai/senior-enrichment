@@ -19,9 +19,9 @@ class Campus extends Component {
 
   componentDidMount() {
     const { id } = this.props.ownProps.match.params
-    const { fetchById } = this.props
+    const { fetchByCampusId } = this.props
 
-    fetchById(id).then(action=> this.setState({ campus: action.campus }))
+    fetchByCampusId(id).then(action=> this.setState({ campus: action.campus }))
   }
 
   componentWillUnmount() {
@@ -89,7 +89,7 @@ const mapState = ({ campus }, ownProps) => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchById: id => dispatch(fetchCampus(id)),
+    fetchByCampusId: id => dispatch(fetchCampus(id)),
     writeName: name => dispatch(writeCampusName(name)),
     create: campus => dispatch(createCampusOnServer(campus)),
     update: campus => dispatch(updateCampusOnServer(campus)),
