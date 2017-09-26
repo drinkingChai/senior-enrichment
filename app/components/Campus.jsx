@@ -6,7 +6,7 @@ import {
   createCampusOnServer,
   updateCampusOnServer,
   resetCampus,
-  removeStudentFromCampus } from '../reducers'
+  removeStudentCampus } from '../reducers'
 
 class Campus extends Component {
   constructor() {
@@ -34,7 +34,13 @@ class Campus extends Component {
   }
 
   onRemoveStudentHandler(ev) {
-    this.props.removeFromCampus(this.props.campus, ev.target.value)
+    const { campus } = this.state
+    const studentId = ev.target.value * 1
+    const student = campus.students.find(s=> s.id == studentId)
+    this.props.removeFromCampus(student)
+      .then(()=> {
+        this.setState({ campus: { ...campus, students: campus.students.filter(s=> s.id != studentId) } })
+      })
   }
 
   onSubmitHandler(ev) {
@@ -86,7 +92,7 @@ const mapDispatch = dispatch => {
     writeName: name => dispatch(writeCampusName(name)),
     create: campus => dispatch(createCampusOnServer(campus)),
     update: campus => dispatch(updateCampusOnServer(campus)),
-    removeFromCampus: (campus, studentId) => dispatch(removeStudentFromCampus(campus, studentId)),
+    removeFromCampus: student => dispatch(removeStudentCampus(student)),
     reset: () => dispatch(resetCampus())
   }
 }

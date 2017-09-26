@@ -2,7 +2,6 @@ import axios from 'axios'
 
 // ACTION NAMES
 const GET_CAMPUS_FROM_SERVER = 'GET_CAMPUS_FROM_SERVER'
-const WRITE_CAMPUS_NAME = 'WRITE_CAMPUS_NAME'
 const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
 const CREATE_CAMPUS = 'CREATE_CAMPUS'
 const RESET_CAMPUS = 'RESET_CAMPUS'
@@ -13,13 +12,6 @@ const getCampusFromServer = campus => {
   return {
     type: GET_CAMPUS_FROM_SERVER,
     campus
-  }
-}
-
-export const writeCampusName = name => {
-  return {
-    type: WRITE_CAMPUS_NAME,
-    name
   }
 }
 
@@ -50,13 +42,6 @@ export const fetchCampus = id => dispatch => {
     .then(campus=> dispatch(getCampusFromServer(campus)))
 }
 
-export const removeStudentFromCampus = (campus, studentId) => dispatch => {
-  const student = campus.students.find(s=> s.id == studentId * 1)
-  axios.put(`/api/students/${student.id}`, { ...student, campusId: null })
-    .then(response=> response.data)
-    .then(()=> dispatch(removeStudent(studentId)))
-}
-
 export const createCampusOnServer = (campus, history) => dispatch => {
   return axios.post('/api/campuses', campus)
     .then(()=> history.push('/'))
@@ -78,8 +63,6 @@ export default function reducer (campus = initialState, action) {
   switch (action.type) {
     case GET_CAMPUS_FROM_SERVER:
       return action.campus
-    case WRITE_CAMPUS_NAME:
-      return { ...campus, name: action.name }
     case UPDATE_CAMPUS:
       return { ...campus, ...action.campus }
     case REMOVE_STUDENT:
