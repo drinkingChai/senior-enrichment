@@ -5,6 +5,7 @@ const GET_STUDENT_FROM_SERVER = 'GET_STUDENT_FROM_SERVER'
 const ADD_STUDENT_CAMPUS = 'ADD_STUDENT_CAMPUS'
 const REMOVE_STUDENT_CAMPUS = 'REMOVE_STUDENT_CAMPUS'
 const UPDATE_STUDENT = 'UPDATE_STUDENT'
+const CREATE_STUDENT = 'CREATE_STUDENT'
 const RESET_STUDENT = 'RESET_STUDENT'
 
 // ACTION CREATORS
@@ -46,6 +47,12 @@ export const fetchStudent = id => dispatch => {
   return axios.get(`/api/students/${id}`)
     .then(response=> response.data)
     .then(student=> dispatch(getStudentFromServer(student)))
+}
+
+export const createStudentOnServer = (student, history) => dispatch => {
+  return axios.post('/api/students', student)
+    .then(response=> response.data)
+    .then(_student=> history.push(`/students/${_student.id}`))
 }
 
 export const addStudentCampus = (student, campusId) => dispatch => {

@@ -36,7 +36,8 @@ export const fetchCampus = id => dispatch => {
 
 export const createCampusOnServer = (campus, history) => dispatch => {
   return axios.post('/api/campuses', campus)
-    .then(()=> history.push('/'))
+    .then(response=> response.data)
+    .then(_campus=> history.push(`/campuses/${_campus.id}`))
 }
 
 export const updateCampusOnServer = (campus) => dispatch => {

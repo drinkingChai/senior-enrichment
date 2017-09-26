@@ -22,6 +22,8 @@ class AllStudents extends Component {
               <button value={ student.id } onClick={ deleteStudent }>Delete</button>
             </div>
           ))}
+
+          <Link to='/add-new-student'>Add new student</Link>
         </div>
       </div>
     )

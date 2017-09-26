@@ -16,9 +16,11 @@ export default class Root extends Component {
 
         <Route exact path='/campuses' component={ AllCampuses }/>
         <Route exact path='/campuses/:id' component={ Campus }/>
+        <Route exact path='/add-new-campus' component={ Campus }/>
         <Route exact path='/campuses/:id/add-students' component={ AddStudents }/>
         <Route exact path='/students' component={ AllStudents }/>
         <Route exact path='/students/:id' component={ Student }/>
+        <Route exact path='/add-new-student' component={ Student }/>
       </div>
     )
   }

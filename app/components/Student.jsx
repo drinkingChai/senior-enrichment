@@ -31,7 +31,7 @@ class Student extends Component {
   onChangeHandler(ev) {
     let { name, value } = ev.target
     const { student } = this.state
-    value = name == 'campusId' && value * 1 ? value : null
+    value = name == 'campusId' ? value * 1 ? value : null : value
     student[name] = value
     this.setState(student)
   }
@@ -82,7 +82,7 @@ const mapDispatch = dispatch => {
     fetchStudentById: id => dispatch(fetchStudent(id)),
     getCampuses: () => dispatch(fetchCampuses()),
     writeName: name => dispatch(writeStudentName(name)),
-    //create: campus => dispatch(createCampusOnServer(campus)),
+    create: student => dispatch(createStudentOnServer(student, ownProps.history)),
     update: student => dispatch(updateStudentOnServer(student)),
     reset: () => dispatch(resetStudent())
   }

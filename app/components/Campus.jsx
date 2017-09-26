@@ -89,11 +89,11 @@ const mapState = ({ campus }, ownProps) => {
   return { campus, ownProps }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     fetchByCampusId: id => dispatch(fetchCampus(id)),
     writeName: name => dispatch(writeCampusName(name)),
-    create: campus => dispatch(createCampusOnServer(campus)),
+    create: campus => dispatch(createCampusOnServer(campus, ownProps.history)),
     update: campus => dispatch(updateCampusOnServer(campus)),
     removeFromCampus: student => dispatch(removeStudentCampus(student)),
     reset: () => dispatch(resetCampus())

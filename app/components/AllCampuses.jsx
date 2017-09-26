@@ -22,6 +22,8 @@ class AllCampuses extends Component {
               <button value={ campus.id } onClick={ deleteCampus }>Delete</button>
             </div>
           ))}
+
+          <Link to='/add-new-campus'>Add new campus</Link>
         </div>
       </div>
     )
