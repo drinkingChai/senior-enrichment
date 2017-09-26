@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import store from '../store'
-import { fetchAllCampuses, fetchAllStudents } from '../reducers'
+import { fetchCampuses, fetchStudents } from '../reducers'
 import Nav from './Nav'
 import AllCampuses from './AllCampuses'
-import AllStudents from './AllStudents'
 import Campus from './Campus'
 
 export default class Root extends Component {
   componentDidMount() {
-    store.dispatch(fetchAllCampuses())
-    store.dispatch(fetchAllStudents())
+    store.dispatch(fetchCampuses())
   }
 
   render() {
@@ -19,7 +17,6 @@ export default class Root extends Component {
         <Nav />
 
         <Route exact path='/campuses' component={ AllCampuses }/>
-        <Route exact path='/students' component={ AllStudents }/>
         <Route exact path='/campuses/:id' component={ Campus }/>
       </div>
     )
