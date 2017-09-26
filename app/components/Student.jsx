@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   fetchStudent,
+  fetchCampuses,
   createStudentOnServer,
   updateStudentOnServer,
   resetStudent } from '../reducers'
@@ -10,16 +11,17 @@ import {
 class Student extends Component {
   constructor() {
     super()
-    this.state = { student: { name: '', campus: {} } }
+    this.state = { student: { name: '', campus: { }, campusId: 0 } }
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
 
   componentDidMount() {
     const { id } = this.props.ownProps.match.params
-    const { fetchStudentById } = this.props
+    const { fetchStudentById, getCampuses } = this.props
 
     fetchStudentById(id).then(action=> this.setState({ student: action.student }))
+    getCampuses()
   }
 
   componentWillUnmount() {
@@ -27,8 +29,11 @@ class Student extends Component {
   }
 
   onChangeHandler(ev) {
+    let { name, value } = ev.target
     const { student } = this.state
-    this.setState({ student: { ...student, name: ev.target.value }})
+    value = name == 'campusId' && value * 1 ? value : null
+    student[name] = value
+    this.setState(student)
   }
 
   onSubmitHandler(ev) {
@@ -40,6 +45,7 @@ class Student extends Component {
 
   render() {
     const { student } = this.state
+    const { campuses } = this.props
     const {
       onChangeHandler,
       onSubmitHandler } = this
@@ -52,6 +58,14 @@ class Student extends Component {
             <input name='name' value={ student.name } onChange={ onChangeHandler }/>
           </div>
 
+          {/* separate this */}
+          <select name='campusId' value={ student.campusId || 0 } onChange={ onChangeHandler }>
+            <option value={ 0 }> --- none --- </option>
+            { campuses.map(campus=> (
+              <option key={ campus.id } value={ campus.id }>{ campus.name }</option>
+            ))}
+          </select>
+
           <button>{ student.id ? 'Update' : 'Create' }</button>
         </form>
       </div>
@@ -59,13 +73,14 @@ class Student extends Component {
   }
 }
 
-const mapState = ({ student }, ownProps) => {
-  return { student, ownProps }
+const mapState = ({ student, campuses }, ownProps) => {
+  return { student, campuses, ownProps }
 }
 
 const mapDispatch = dispatch => {
   return {
     fetchStudentById: id => dispatch(fetchStudent(id)),
+    getCampuses: () => dispatch(fetchCampuses()),
     writeName: name => dispatch(writeStudentName(name)),
     //create: campus => dispatch(createCampusOnServer(campus)),
     update: student => dispatch(updateStudentOnServer(student)),
