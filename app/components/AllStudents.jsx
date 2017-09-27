@@ -12,18 +12,36 @@ class AllStudents extends Component {
     const { students, deleteStudent } = this.props
 
     return (
-      <div>
-        <h3>Students</h3>
+      <div className="row">
+        <div className="col-12">
+          <h3>Students</h3>
+          <hr/>
+        </div>
 
         <div>
           { students.map(student=> (
-            <div key={ student.id }>
-              <Link to={ `/students/${student.id}` }>{ student.name }</Link>
-              <button value={ student.id } onClick={ deleteStudent }>Delete</button>
+            <div key={ student.id } className="col-3 col-md-3 col-sm-3">
+              <div className="card thumb">
+                <div className="row">
+                  <div className="col-12">
+                    <h4>{ student.name }</h4>
+                    <h5>{ student.email }</h5>
+                    <hr/>
+                    <h5>{ student.campus && student.campus.name }</h5>
+                  </div>
+
+                  <div className="col-12">
+                    <Link to={ `/students/${student.id}` }>More info...</Link>
+                    <button value={ student.id } onClick={ deleteStudent }>Delete</button>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
 
-          <Link to='/add-new-student'>Add new student</Link>
+          <div className="col-12 col-md-12 col-sm-12">
+            <Link className="col-12 card card-blue btn" to='/add-new-student'>Add new student</Link>
+          </div>
         </div>
       </div>
     )

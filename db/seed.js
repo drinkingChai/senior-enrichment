@@ -6,10 +6,10 @@ const seed = ()=> {
   db.sync({ force: true })
     .then(()=> {
       return Promise.all([
-        Campus.create({ name: 'Luna' }),
-        Campus.create({ name: 'Terra' }),
-        Campus.create({ name: 'Mars' }),
-        Campus.create({ name: 'Titan' }),
+        Campus.create({ name: 'Luna', address: 'Moon base' }),
+        Campus.create({ name: 'Terra', address: 'Earth!' }),
+        Campus.create({ name: 'Mars', address: 'Dome' }),
+        Campus.create({ name: 'Titan', address: 'Jupiter' }),
         Student.create({ name: 'Gabe', email: 'gabe@iheartjupiter.com' }),
         Student.create({ name: 'Ashi', email: 'ashi@iheartjupiter.com' }),
         Student.create({ name: 'Dan', email: 'dan@earthishome.com' }),

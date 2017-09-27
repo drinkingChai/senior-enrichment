@@ -8,7 +8,12 @@ const Campus = conn.define('campus', {
     allowNull: false,
     validate: { notEmpty: true }
   },
-  image: conn.Sequelize.BLOB
+  address: {
+    type: conn.Sequelize.STRING,
+    allowNull: false,
+    validate: { notEmpty: true }
+  },
+  image: conn.Sequelize.STRING
 })
 
 module.exports = Campus 

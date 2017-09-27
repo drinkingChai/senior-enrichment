@@ -33,18 +33,31 @@ class AddStudents extends Component {
     const studentsWithoutCampus = students.filter(student=> !student.campusId)
 
     return (
-      <div>
-        <h3>Add student</h3>
-
-        <form onSubmit={ onSubmitHandler }>
-          { studentsWithoutCampus.map(student=> (
-            <div onClick={ ()=> toggleSelect(student) } key={ student.id }>
-              { student.name }
-              { studensToAdd.includes(student) ? <span>Selected</span> : null }
+      <div className="row">
+        <div className="col-offset-2 col-8 col-md-offset-2 col-md-8">
+          <div className="card campus">
+            <div className="row">
+              <h3>Add student</h3>
+              <hr/>
             </div>
-          ))}
-          <button>Add</button>
-        </form>
+
+            <form onSubmit={ onSubmitHandler }>
+              { studentsWithoutCampus.map(student=> (
+                <div onClick={ ()=> toggleSelect(student) } key={ student.id } className="col-3 col-md-3 col-sm-3">
+                  <div className={ `card thumb ${ studensToAdd.includes(student) ? 'selected' : '' }` }>
+                    <div className="col-12">
+                      <h4>{ student.name }</h4> 
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="col-12 col-md-12 col-sm-12">
+                <button className="col-12 card btn card-blue">Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     )
   }

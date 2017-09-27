@@ -11,7 +11,7 @@ import {
 class Campus extends Component {
   constructor() {
     super()
-    this.state = { campus: { name: '', students: [] } }
+    this.state = { campus: { name: '', address: '', students: [] } }
     this.onRemoveStudentHandler = this.onRemoveStudentHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -20,8 +20,9 @@ class Campus extends Component {
   componentDidMount() {
     const { id } = this.props.ownProps.match.params
     const { fetchByCampusId } = this.props
+    const { campus } = this.state
 
-    if (id) fetchByCampusId(id).then(action=> this.setState({ campus: action.campus }))
+    if (id) fetchByCampusId(id).then(action=> this.setState({ ...campus, campus: action.campus }))
   }
 
   componentWillUnmount() {
@@ -30,7 +31,9 @@ class Campus extends Component {
 
   onChangeHandler(ev) {
     const { campus } = this.state
-    this.setState({ campus: { ...campus, name: ev.target.value }})
+    const { name, value } = ev.target
+    campus[name] = value
+    this.setState({ campus })
   }
 
   onRemoveStudentHandler(student) {
@@ -46,6 +49,7 @@ class Campus extends Component {
     const { update, create } = this.props
     const { campus } = this.state
     campus.id ? update(campus) : create(campus)
+    // on update animate and fade 'updated...'
   }
 
   render() {
@@ -56,27 +60,44 @@ class Campus extends Component {
       onSubmitHandler } = this
 
     return (
-      <div>
-        <form onSubmit={ onSubmitHandler }>
-          <div>
-            <label htmlFor='name'>Name</label>
-            <input name='name' value={ campus.name } onChange={ onChangeHandler }/>
-          </div>
+      <div className="row">
+        <div className="col-offset-2 col-8 col-md-offset-2 col-md-8">
+          <div className="card campus">
+            <form onSubmit={ onSubmitHandler }>
+              <div>
+                <input name='name' value={ campus.name } onChange={ onChangeHandler } placeholder="Name..."/>
+              </div>
 
-          <button>{ campus.id ? 'Update' : 'Create' }</button>
-        </form>
+              <div>
+                <input name='address' value={ campus.address } onChange={ onChangeHandler } placeholder="Address..."/>
+              </div>
 
-        <Link to={ `/campuses/${campus.id}/add-students` }>Add Student</Link>
-      
-        {/* separate the student list */}
-        {
-          campus.students.map(student=> (
-            <div key={ student.id }>
-              <h5>{ student.name }</h5>
-              <button onClick={ () => onRemoveStudentHandler(student) }>Remove</button>
+              <button>{ campus.id ? 'Update' : 'Create' }</button>
+            </form>
+          
+            {/* separate the student list */}
+            <div className="col-12">
+              {
+                campus.students.map(student=> (
+                  <div key={ student.id } className="col-12 list-item-container">
+                    <div className="list-item">
+                      <h5><Link to={ `/students/${student.id}` }>{ student.name }</Link></h5>
+                      <button onClick={ () => onRemoveStudentHandler(student) }>Remove</button>
+                    </div>
+                  </div>
+                ))
+              }
+
+              {
+                campus.id ?
+                <div className="col-12 col-md-12 col-sm-12">
+                  <Link className="col-12 card card-blue btn" to={ `/campuses/${campus.id}/add-students` }>Add student</Link>
+                </div> :
+                null
+              }
             </div>
-          ))
-        }
+          </div>
+        </div>
       </div>
     )
   }

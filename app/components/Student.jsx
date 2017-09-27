@@ -11,7 +11,7 @@ import {
 class Student extends Component {
   constructor() {
     super()
-    this.state = { student: { name: '', campus: { }, campusId: 0 } }
+    this.state = { student: { name: '', email: '', campus: { }, campusId: 0 } }
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
@@ -19,8 +19,9 @@ class Student extends Component {
   componentDidMount() {
     const { id } = this.props.ownProps.match.params
     const { fetchStudentById, getCampuses } = this.props
+    const { student } = this.state
 
-    if (id) fetchStudentById(id).then(action=> this.setState({ student: action.student }))
+    if (id) fetchStudentById(id).then(action=> this.setState({ ...student, student: action.student }))
     getCampuses()
   }
 
@@ -51,23 +52,33 @@ class Student extends Component {
       onSubmitHandler } = this
 
     return (
-      <div>
-        <form onSubmit={ onSubmitHandler }>
-          <div>
-            <label htmlFor='name'>Name</label>
-            <input name='name' value={ student.name } onChange={ onChangeHandler }/>
+      <div className="row">
+        <div className="col-offset-2 col-8 col-md-offset-2 col-md-8">
+          <div className="card campus">
+            <form onSubmit={ onSubmitHandler }>
+              <div>
+                <input name='name' value={ student.name } onChange={ onChangeHandler } placeholder='Name...'/>
+              </div>
+
+              <div>
+                <input name='email' value={ student.email } onChange={ onChangeHandler } type='email' placeholder='E-mail...'/>
+              </div>
+
+
+              {/* separate this */}
+              <select name='campusId' value={ student.campusId || 0 } onChange={ onChangeHandler }>
+                <option value={ 0 }> --- none --- </option>
+                { campuses.map(campus=> (
+                  <option key={ campus.id } value={ campus.id }>{ campus.name }</option>
+                ))}
+              </select>
+
+              <div>
+                <button>{ student.id ? 'Update' : 'Create' }</button>
+              </div>
+            </form>
           </div>
-
-          {/* separate this */}
-          <select name='campusId' value={ student.campusId || 0 } onChange={ onChangeHandler }>
-            <option value={ 0 }> --- none --- </option>
-            { campuses.map(campus=> (
-              <option key={ campus.id } value={ campus.id }>{ campus.name }</option>
-            ))}
-          </select>
-
-          <button>{ student.id ? 'Update' : 'Create' }</button>
-        </form>
+        </div>
       </div>
     )
   }
