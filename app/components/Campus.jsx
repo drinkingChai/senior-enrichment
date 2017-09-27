@@ -21,7 +21,7 @@ class Campus extends Component {
     const { id } = this.props.ownProps.match.params
     const { fetchByCampusId } = this.props
 
-    fetchByCampusId(id).then(action=> this.setState({ campus: action.campus }))
+    if (id) fetchByCampusId(id).then(action=> this.setState({ campus: action.campus }))
   }
 
   componentWillUnmount() {

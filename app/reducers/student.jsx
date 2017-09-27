@@ -50,7 +50,7 @@ export const fetchStudent = id => dispatch => {
 }
 
 export const createStudentOnServer = (student, history) => dispatch => {
-  return axios.post('/api/students', student)
+  return axios.post('/api/students', { ...student, campusId: student.campusId || null })
     .then(response=> response.data)
     .then(_student=> history.push(`/students/${_student.id}`))
 }

@@ -20,7 +20,7 @@ class Student extends Component {
     const { id } = this.props.ownProps.match.params
     const { fetchStudentById, getCampuses } = this.props
 
-    fetchStudentById(id).then(action=> this.setState({ student: action.student }))
+    if (id) fetchStudentById(id).then(action=> this.setState({ student: action.student }))
     getCampuses()
   }
 
@@ -77,7 +77,7 @@ const mapState = ({ student, campuses }, ownProps) => {
   return { student, campuses, ownProps }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, ownProps) => {
   return {
     fetchStudentById: id => dispatch(fetchStudent(id)),
     getCampuses: () => dispatch(fetchCampuses()),
