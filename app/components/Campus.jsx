@@ -86,10 +86,10 @@ class Campus extends Component {
                 <input name='address' value={ campus.address } onChange={ onChangeHandler } placeholder="Address..."/>
               </div>
 
-              <button>{ campus.id ? 'Update' : 'Create' }</button>
-
+              <div>
               { update.length ? 
-                <StatusMessage message={ update }/> : null }
+                <StatusMessage message={ update }/> : <button>{ campus.id ? 'Update' : 'Create' }</button> }
+              </div>
             </form>
           
             {/* separate the student list */}

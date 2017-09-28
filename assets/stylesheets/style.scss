@@ -76,13 +76,26 @@ button {
     background-color: #0074D9;
     color: #fff;
   }
+  &-orange {
+    background-color: #FF851B;
+    color: #fff;
+  }
+  &-green {
+    background-color: #3D9970;
+    * {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
 
   &.campus {
     flex-direction: column;
   }
 
   &.selected {
-    background-color: #01FF70;
+    border-width: 3px;
+    border-color: #111111;
+    //box-shadow:inset 0px 0px 0px 3px #111111;
   }
 }
 a.card { display: block; }
@@ -155,4 +168,13 @@ select {
 
 .status-message {
   color: #2ECC40;
+}
+
+.select-student {
+  position: relative;
+}
+.check-container {
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em;
 }

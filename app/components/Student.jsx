@@ -89,11 +89,9 @@ class Student extends Component {
               </select>
 
               <div>
-                <button>{ student.id ? 'Update' : 'Create' }</button>
-              </div>
-
               { update.length ? 
-                <StatusMessage message={ update }/> : null }
+                <StatusMessage message={ update }/> : <button>{ student.id ? 'Update' : 'Create' }</button> }
+              </div>
             </form>
           </div>
         </div>

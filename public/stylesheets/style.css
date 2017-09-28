@@ -69,10 +69,19 @@ button {
   .card-blue {
     background-color: #0074D9;
     color: #fff; }
+  .card-orange {
+    background-color: #FF851B;
+    color: #fff; }
+  .card-green {
+    background-color: #3D9970; }
+    .card-green * {
+      color: #fff;
+      text-decoration: none; }
   .card.campus {
     flex-direction: column; }
   .card.selected {
-    background-color: #01FF70; }
+    border-width: 3px;
+    border-color: #111111; }
 
 a.card {
   display: block; }
@@ -121,3 +130,11 @@ select {
 
 .status-message {
   color: #2ECC40; }
+
+.select-student {
+  position: relative; }
+
+.check-container {
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em; }

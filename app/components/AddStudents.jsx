@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchStudents, addStudentCampus } from '../reducers'
 
@@ -27,7 +28,7 @@ class AddStudents extends Component {
   }
 
   render() {
-    const { students } = this.props
+    const { students, cancelAdd  } = this.props
     const { studensToAdd } = this.state
     const { toggleSelect, onSubmitHandler } = this
     const studentsWithoutCampus = students.filter(student=> !student.campusId)
@@ -41,20 +42,38 @@ class AddStudents extends Component {
               <hr/>
             </div>
 
-            <form onSubmit={ onSubmitHandler }>
-              { studentsWithoutCampus.map(student=> (
-                <div onClick={ ()=> toggleSelect(student) } key={ student.id } className="col-3 col-md-3 col-sm-3">
-                  <div className={ `card thumb ${ studensToAdd.includes(student) ? 'selected' : '' }` }>
-                    <div className="col-12">
-                      <h4>{ student.name }</h4> 
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <form onSubmit={ onSubmitHandler } className="row">
 
-              <div className="col-12 col-md-12 col-sm-12">
-                <button className="col-12 card btn card-blue">Add</button>
-              </div>
+              { !studentsWithoutCampus.length ?
+                  <div className="row"><h3>No students available...</h3></div> :
+                  <div className="col-12">
+                    { studentsWithoutCampus.map(student=> (
+                      <div onClick={ ()=> toggleSelect(student) } key={ student.id } className="col-3 col-md-3 col-sm-3">
+                        <div className={ `card thumb select-student ${ studensToAdd.includes(student) ? 'selected' : '' }` }>
+                          <div className="col-12">
+                            <h4>{ student.name }</h4> 
+                          </div>
+
+                          <div className="check-container">
+                          { studensToAdd.includes(student) ?
+                              <i className="im im-check-mark-circle"></i> :
+                              <i className="im im-circle-o"></i> }
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+              }
+
+              { studentsWithoutCampus.length ? 
+                  <div className="col-12">
+                    <div className="col-6"><button className="card btn card-blue">Add</button></div>
+                    <div className="col-6"><button onClick={ cancelAdd } className="card btn card-orange">Back</button></div>
+                  </div> :
+                  <div className="col-12">
+                    <div className="col-6"><Link className="card btn card-green" to="/add-new-student"><button>Add new student</button></Link></div>
+                    <div className="col-6"><button onClick={ cancelAdd } className="card btn card-orange">Back</button></div>
+                  </div> }
             </form>
           </div>
         </div>
@@ -62,6 +81,8 @@ class AddStudents extends Component {
     )
   }
 }
+                //<button className="col-6 col-md-6 card btn card-blue">Add</button>
+                //<button className="col-6 col-md-6 card btn card-red">Back</button>
 
 const mapState = ({ students }, ownProps) => {
   return { students, ownProps }
@@ -76,6 +97,9 @@ const mapDispatch = (dispatch, ownProps) => {
         students.map(student => dispatch(addStudentCampus(student, id)))
       )
       .then(()=> ownProps.history.push(`/campuses/${ownProps.match.params.id}`))
+    },
+    cancelAdd: ()=> {
+      ownProps.history.push(`/campuses/${ownProps.match.params.id}`)
     }
   }
 }
