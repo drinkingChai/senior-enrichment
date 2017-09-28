@@ -7,11 +7,14 @@ import {
   createStudentOnServer,
   updateStudentOnServer,
   resetStudent } from '../reducers'
+import formatAxiosError from './formatAxiosError'
+import ErrorMessage from './ErrorMessage'
+import StatusMessage from './StatusMessage'
 
 class Student extends Component {
   constructor() {
     super()
-    this.state = { student: { name: '', email: '', campus: { }, campusId: 0 } }
+    this.state = { student: { name: '', email: '', campus: { }, campusId: 0 }, error: '', update: '' }
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
   }
@@ -41,11 +44,21 @@ class Student extends Component {
     ev.preventDefault()
     const { update, create } = this.props
     const { student } = this.state
-    student.id ? update(student) : create(student)
+    if (student.id) {
+      update(student)
+        .then(()=> {
+          this.setState({ update: 'Updated...' })
+          setTimeout(()=> { this.setState({ update: '' }) }, 2000)
+        })
+        .catch(err=> this.setState({ error: formatAxiosError(err) }))
+    } else {
+      create(student)
+        .catch(err=> this.setState({ error: formatAxiosError(err) }))
+    }
   }
 
   render() {
-    const { student } = this.state
+    const { student, error, update } = this.state
     const { campuses } = this.props
     const {
       onChangeHandler,
@@ -56,6 +69,8 @@ class Student extends Component {
         <div className="col-offset-2 col-8 col-md-offset-2 col-md-8">
           <div className="card campus">
             <form onSubmit={ onSubmitHandler }>
+              { error.length ? 
+                <ErrorMessage message={ error }/> : null }
               <div>
                 <input name='name' value={ student.name } onChange={ onChangeHandler } placeholder='Name...'/>
               </div>
@@ -76,6 +91,9 @@ class Student extends Component {
               <div>
                 <button>{ student.id ? 'Update' : 'Create' }</button>
               </div>
+
+              { update.length ? 
+                <StatusMessage message={ update }/> : null }
             </form>
           </div>
         </div>

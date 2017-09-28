@@ -7,11 +7,14 @@ import {
   updateCampusOnServer,
   resetCampus,
   removeStudentCampus } from '../reducers'
+import formatAxiosError from './formatAxiosError'
+import ErrorMessage from './ErrorMessage'
+import StatusMessage from './StatusMessage'
 
 class Campus extends Component {
   constructor() {
     super()
-    this.state = { campus: { name: '', address: '', students: [] } }
+    this.state = { campus: { name: '', address: '', students: [] }, error: '', update: '' }
     this.onRemoveStudentHandler = this.onRemoveStudentHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
     this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -48,12 +51,21 @@ class Campus extends Component {
     ev.preventDefault()
     const { update, create } = this.props
     const { campus } = this.state
-    campus.id ? update(campus) : create(campus)
-    // on update animate and fade 'updated...'
+    if (campus.id) {
+      update(campus)
+        .then(()=> {
+          this.setState({ update: 'Updated...' })
+          setTimeout(()=> { this.setState({ update: '' }) }, 2000)
+        })
+        .catch(err=> this.setState({ error: formatAxiosError(err) }))
+    } else {
+      create(campus)
+        .catch(err=> this.setState({ error: formatAxiosError(err) }))
+    }
   }
 
   render() {
-    const { campus } = this.state
+    const { campus, error, update } = this.state
     const {
       onRemoveStudentHandler,
       onChangeHandler,
@@ -64,6 +76,8 @@ class Campus extends Component {
         <div className="col-offset-2 col-8 col-md-offset-2 col-md-8">
           <div className="card campus">
             <form onSubmit={ onSubmitHandler }>
+              { error.length ? 
+                <ErrorMessage message={ error }/> : null }
               <div>
                 <input name='name' value={ campus.name } onChange={ onChangeHandler } placeholder="Name..."/>
               </div>
@@ -73,6 +87,9 @@ class Campus extends Component {
               </div>
 
               <button>{ campus.id ? 'Update' : 'Create' }</button>
+
+              { update.length ? 
+                <StatusMessage message={ update }/> : null }
             </form>
           
             {/* separate the student list */}

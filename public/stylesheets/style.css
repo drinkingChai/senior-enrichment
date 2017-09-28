@@ -115,3 +115,9 @@ select {
   background-position: calc(100% - 0.8em) 0.7em, calc(100% - 1.5em) 0.7em, 100% 0%;
   background-size: 0.7em 0.8em, 0.7em 0.7em, 3em 3em;
   background-repeat: no-repeat; }
+
+.error-message {
+  color: #FF4136; }
+
+.status-message {
+  color: #2ECC40; }
