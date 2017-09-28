@@ -54,7 +54,7 @@ class Campus extends Component {
     if (campus.id) {
       update(campus)
         .then(()=> {
-          this.setState({ update: 'Updated...' })
+          this.setState({ update: 'Updated...', error: '' })
           setTimeout(()=> { this.setState({ update: '' }) }, 2000)
         })
         .catch(err=> this.setState({ error: formatAxiosError(err) }))
