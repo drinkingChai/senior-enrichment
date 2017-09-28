@@ -20,7 +20,7 @@ class AllCampuses extends Component {
 
         <div>
           { campuses.map(campus=> (
-            <div key={ campus.id } className="col-6 col-md-6 col-sm-6">
+            <div key={ campus.id } className="col-4 col-md-4 col-sm-6">
               <div className="card thumb">
                 <div className="row">
                   <div className="col-12">

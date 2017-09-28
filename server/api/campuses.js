@@ -8,7 +8,7 @@ campuses.get('/', (req, res, next)=> {
 })
 
 campuses.get('/:id', (req, res, next)=> {
-  db.model('campus').findById(req.params.id, { include: [ db.model('student') ] } )
+  db.model('campus').findById(req.params.id, { include: [ { model: db.model('student'), order: ['name'] } ] } )
     .then(campus=> res.send(campus))
     .catch(next)
 })
